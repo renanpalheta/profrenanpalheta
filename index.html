@@ -8,7 +8,8 @@
   <meta name="description" content="Portfólio de Renan Palheta: Professor de Informática e Engenheiro de Computação focado em IA, Salesforce e Web Development.">
   <meta property="og:title" content="Prof. Renan Palheta | Engenheiro & Educador">
   <meta property="og:image" content="LOGO_PROF.png">
-  <link rel="icon" href="LOGO_PROF.png"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="icon" href="LOGO_PROF.png"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
     :root {
@@ -34,7 +35,7 @@
     header {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
-      padding: 80px 20px;
+      padding: 80px 20px 120px; /* Aumentei o padding inferior para o efeito de sobreposição */
       text-align: center;
     }
 
@@ -73,7 +74,44 @@
     }
     nav a:hover { color: var(--accent); }
 
+    /* Nova Seção Sobre Mim */
+    .about-container {
+      max-width: 900px;
+      margin: -60px auto 60px; /* Efeito de sobreposição no header */
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 10;
+    }
+
+    .about-text h3 { color: var(--secondary); margin-top: 0; font-size: 1.8rem; }
+    .about-text p { font-size: 1.05rem; color: #444; }
+
+    .about-highlights {
+      display: flex;
+      gap: 25px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .highlight-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: #f0f4f8;
+      padding: 8px 15px;
+      border-radius: 50px;
+    }
+
+    .highlight-item i { color: var(--secondary); }
+
     section { max-width: 1100px; margin: 60px auto; padding: 0 20px; }
+    
     h2 { 
       color: var(--primary); 
       border-left: 6px solid var(--secondary); 
@@ -211,6 +249,8 @@
       header h1 { font-size: 2rem; }
       nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
       nav a { margin: 5px; font-size: 0.8rem; }
+      .about-container { margin: -30px 20px 40px; padding: 25px; text-align: center; }
+      .about-highlights { justify-content: center; }
       .grid-container { grid-template-columns: 1fr; }
     }
   </style>
@@ -224,11 +264,34 @@
   </header>
 
   <nav>
+    <a href="#sobre">Sobre</a>
     <a href="#educacional">Educação</a>
     <a href="#engenharia">Engenharia</a>
     <a href="#material">Curso Completo</a>
     <a href="#contato">Contato</a>
   </nav>
+
+  <section id="sobre">
+    <div class="about-container">
+      <div class="about-text">
+        <h3>Olá, eu sou o Renan!</h3>
+        <p>
+          Sou <strong>Engenheiro de Computação</strong> e <strong>Professor</strong>, apaixonado por transformar tecnologia em conhecimento acessível. 
+          Minha trajetória une o rigor técnico da engenharia com a didática necessária para aprovação em concursos públicos.
+        </p>
+        <p>
+          Atualmente baseado em Uberlândia, foco minha pesquisa de mestrado em <strong>Inteligência Artificial</strong> e no desenvolvimento de soluções em <strong>Salesforce</strong> e <strong>IoT</strong>, 
+          buscando sempre a inovação que gera impacto real na vida das pessoas.
+        </p>
+        
+        <div class="about-highlights">
+          <div class="highlight-item"><i class="fas fa-code"></i> Engenheiro</div>
+          <div class="highlight-item"><i class="fas fa-brain"></i> Pesquisador de IA</div>
+          <div class="highlight-item"><i class="fas fa-user-graduate"></i> Prof. de Informática</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="educacional">
     <h2><i class="fas fa-graduation-cap"></i> Projetos Educacionais</h2>
@@ -324,7 +387,7 @@
       <a href="mailto:prof.renanpalheta@gmail.com" title="E-mail"><i class="fas fa-envelope"></i></a>
       <a href="https://www.linkedin.com/in/renan-palheta/" title="LinkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
       <a href="https://instagram.com/engrpalheta" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://profrenanpalheta.github.io/" title="GitHub" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://github.com/renanpalheta" title="GitHub" target="_blank"><i class="fab fa-github"></i></a>
     </div>
     <p>&copy; 2026 - Renan Palheta. Engenharia da Computação e Educação.</p>
   </footer>
