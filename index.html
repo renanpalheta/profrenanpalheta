@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Prof. Renan Palheta | Engenharia & Educação</title>
+  <meta name="description" content="Portfólio de Renan Palheta: Professor de Informática e Engenheiro de Computação focado em IA e Análise de Dados com Neo4j.">
+  <meta property="og:title" content="Prof. Renan Palheta | Engenheiro & Educador">
+  <meta property="og:image" content="LOGO_PROF.png">
+  <link rel="icon" href="LOGO_PROF.png"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary: #1b2a47;
+      --secondary: #1c6eb8;
+      --accent: #1abc9c;
+      --light: #f4f7fa;
+      --dark-blue: #112240;
+      --success: #36c805;
+      --pdf-red: #e74c3c;
+      --gold: #d4af37;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--light);
+      color: #2c3e50;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 80px 20px 120px;
+      text-align: center;
+    }
+
+    header img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    header h1 { margin: 15px 0 5px; font-size: 2.5rem; letter-spacing: -1px; }
+    header p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 0 auto; font-weight: 300; }
+
+    nav {
+      background-color: var(--dark-blue);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 15px 0;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    nav a {
+      color: #ecf0f1;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    nav a:hover { color: var(--accent); }
+
+    .about-container {
+      max-width: 1000px;
+      margin: -60px auto 60px;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 10;
+    }
+
+    .about-content {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-image {
+      flex: 0 0 280px;
+    }
+
+    .about-image img {
+      width: 100%;
+      max-width: 280px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      border: 3px solid var(--secondary);
+    }
+
+    .about-text {
+      flex: 1;
+    }
+
+    .about-text h3 { color: var(--secondary); margin-top: 0; font-size: 1.8rem; }
+    
+    .about-text p { 
+      font-size: 1.05rem; 
+      color: #444; 
+      margin: 0 0 12px 0;
+    }
+
+    .about-highlights {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .highlight-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: #f0f4f8;
+      padding: 8px 15px;
+      border-radius: 50px;
+    }
+    .highlight-item i { color: var(--secondary); }
+
+    section { max-width: 1100px; margin: 60px auto; padding: 0 20px; }
+    
+    h2 { 
+      color: var(--primary); 
+      border-left: 6px solid var(--secondary); 
+      padding-left: 15px; 
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.8rem;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(28, 110, 184, 0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover { 
+      transform: translateY(-10px); 
+      box-shadow: 0 20px 40px rgba(27, 42, 71, 0.1);
+    }
+    
+    .card i.main-icon { font-size: 2.5rem; color: var(--secondary); margin-bottom: 20px; }
+    .card strong { font-size: 1.3rem; display: block; margin-bottom: 12px; color: var(--primary); }
+    .card p { font-size: 1rem; color: #5d6d7e; flex-grow: 1; }
+
+    .tech-badges { margin: 15px 0; display: flex; flex-wrap: wrap; gap: 8px; }
+    .badge {
+      background: #eef2f7;
+      color: var(--secondary);
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .pdf-link {
+      text-decoration: none;
+      color: var(--primary);
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: 0.2s;
+    }
+    .pdf-link:hover { border-color: var(--pdf-red); color: var(--pdf-red); }
+    .pdf-link i { color: var(--pdf-red); font-size: 1.2rem; }
+
+    .link-action {
+      text-decoration: none;
+      color: var(--secondary);
+      font-weight: bold;
+      margin-top: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card.mestrado-focus {
+      border: 2px solid var(--secondary);
+      background: linear-gradient(145deg, #ffffff, #f0f7ff);
+    }
+    .card.mestrado-focus::after {
+      content: "DESTAQUE";
+      position: absolute;
+      top: 15px;
+      right: -30px;
+      background: var(--secondary);
+      color: white;
+      font-size: 0.7rem;
+      padding: 5px 40px;
+      transform: rotate(45deg);
+      font-weight: bold;
+    }
+
+    /* ==========================================================================
+       ESTILOS EXCLUSIVOS DA SEÇÃO DE CERTIFICAÇÕES (INSPIRADO NO CARLOS)
+       ========================================================================== */
+    .certificacoes-container {
+      background-color: #0b1528;
+      padding: 60px 40px;
+      border-radius: 30px;
+      color: #fff;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .certificacoes-container h2 {
+      color: #fff;
+      border-left-color: var(--accent);
+    }
+
+    .painel-contadores {
+      display: flex;
+      justify-content: space-around;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 40px;
+      text-align: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .contador-item h3 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .contador-item p {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #8892b0;
+      margin: 5px 0 0 0;
+    }
+
+    .grid-certificados {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .badge-cert {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+    }
+
+    .badge-cert i.cert-icon {
+      font-size: 2rem;
+      color: #8892b0;
+      transition: 0.3s;
+    }
+
+    .badge-cert span {
+      font-size: 0.7rem;
+      margin-top: 8px;
+      font-weight: 600;
+      display: block;
+      line-height: 1.2;
+      color: #cbd5e1;
+    }
+
+    .badge-cert:hover {
+      transform: scale(1.08);
+      background: rgba(26, 188, 156, 0.1);
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(26, 188, 156, 0.4);
+    }
+
+    .badge-cert:hover i.cert-icon {
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .badge-cert::after {
+      content: "Baixar PDF";
+      position: absolute;
+      bottom: -25px;
+      background: var(--dark-blue);
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.2s;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .badge-cert:hover::after {
+      opacity: 1;
+      bottom: -20px;
+    }
+
+    .instituicoes-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 35px;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      flex-wrap: wrap;
+      opacity: 0.6;
+    }
+
+    .instituicoes-logos i {
+      font-size: 1.8rem;
+      color: #8892b0;
+    }
+
+    .hotmart-box {
+      background: white;
+      padding: 60px 40px;
+      border-radius: 30px;
+      border: 3px dashed var(--success);
+      text-align: center;
+    }
+    .btn-hotmart {
+      background: var(--success);
+      color: white;
+      padding: 18px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 800;
+      display: inline-block;
+      margin-top: 25px;
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+      margin-top: 100px;
+    }
+    .social-links a {
+      color: white;
+      margin: 0 20px;
+      font-size: 1.5rem;
+      opacity: 0.8;
+    }
+
+    @media(max-width:800px){
+      header h1 { font-size: 2rem; }
+      nav { display: flex; flex-wrap: wrap; justify-content: center; }
+      .about-content { flex-direction: column; text-align: center; }
+      .about-container { margin: -30px 20px 40px; padding: 25px; }
+      .about-highlights { justify-content: center; }
+      .grid-container { grid-template-columns: 1fr; }
+      .painel-contadores { flex-direction: column; gap: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="LOGO_PROF.png" alt="Foto Prof. Renan Palheta" loading="lazy">
+    <h1>Renan Palheta</h1>
+    <p>Engenheiro de Computação | Pesquisador em Dados & IA | Especialista em Informática para Concursos</p>
+  </header>
+
+  <nav>
+    <a href="#sobre">Sobre</a>
+    <a href="#educacional">Educação</a>
+    <a href="#engenharia">Engenharia</a>
+    <a href="#certificacoes">Certificações</a>
+    <a href="#material">Curso Completo</a>
+    <a href="#contato">Contato</a>
+  </nav>
+
+  <section id="sobre">
+    <div class="about-container">
+      <div class="about-content">
+        
+        <div class="about-image">
+          <img src="perfil-ia.jpg" alt="Renan Palheta - Engenheiro e Professor">
+        </div>
+
+        <div class="about-text">
+          <h3>Olá, eu sou o Renan!</h3>
+          <p>
+            Sou <strong>Engenheiro de Computação</strong> e <strong>Professor</strong>, apaixonado por transformar tecnologia em conhecimento acessível. 
+            Minha trajetória une o rigor técnico da engenharia com a didática necessária para aprovação em concursos públicos.
+          </p>
+          <p>
+            Atualmente morando em Uberlândia, foco minha pesquisa de mestrado em <strong>Inteligência Artificial e análise de dados complexos com Neo4j</strong>, explorando o potencial de bancos de dados em grafos para segurança e IoT.
+          </p>
+          
+          <div class="about-highlights">
+            <div class="highlight-item"><i class="fas fa-code"></i> Engenheiro</div>
+            <div class="highlight-item"><i class="fas fa-network-wired"></i> Especialista em Grafos</div>
+            <div class="highlight-item"><i class="fas fa-user-graduate"></i> Professor</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="educacional">
+    <h2><i class="fas fa-graduation-cap"></i> Projetos Educacionais</h2>
+    <div class="grid-container">
+      <div class="card">
+        <i class="fas fa-book-reader main-icon"></i>
+        <strong>Materiais Gratuitos (PDF)</strong>
+        <p>Conteúdo didático focado nos principais editais do país (FGV, CESPE, VUNESP).</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
+          <a href="pdfs/informatica-basica.pdf" class="pdf-link" target="_blank">
+            <i class="fas fa-file-pdf"></i>
+            <div>Informática Básica <small>Windows, Word, Excel e Power Point</small></div>
+          </a>
+          <a href="pdfs/seguranca-redes.pdf" class="pdf-link" target="_blank">
+            <i class="fas fa-file-pdf"></i>
+            <div>Segurança e Redes <small>Criptografia e Protocolos</small></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-chalkboard-teacher main-icon"></i>
+        <strong>Gestão Escolar Inteligente</strong>
+        <p>Sistema personalizado para automação de notas, frequências e evolução pedagógica.</p>
+        <div class="tech-badges">
+          <span class="badge">Excel Avançado</span>
+          <span class="badge">VBA</span>
+        </div>
+        <a href="#" class="link-action">Ver demonstração <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="engenharia">
+    <h2><i class="fas fa-microchip"></i> Pesquisa & Engenharia</h2>
+    <div class="grid-container">
+      <div class="card mestrado-focus">
+        <i class="fas fa-clock main-icon"></i>
+        <strong>Smartwatch AI Monitor</strong>
+        <p>Pesquisa de mestrado desenvolvendo algoritmos de Machine Learning para monitoramento de saúde via wearables.</p>
+        <div class="tech-badges">
+          <span class="badge">IoT</span>
+          <span class="badge">Python</span>
+        </div>
+        <a href="#" class="link-action"><i class="fab fa-github"></i> Ver Documentação</a>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-network-wired main-icon"></i>
+        <strong>Análise de Dados em Grafos (Neo4j)</strong>
+        <p>Implementação de modelagem complexa e consultas Cypher para identificação de padrões, análise de redes e inteligência de dados aplicada à segurança.</p>
+        <div class="tech-badges">
+          <span class="badge">Graph Database</span>
+          <span class="badge">Cypher</span>
+          <span class="badge">NoSQL</span>
+        </div>
+        <a href="#" class="link-action"><i class="fab fa-github"></i> Ver Repositórios</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SEÇÃO DE CERTIFICAÇÕES (ESTILO DARK PREMIUM)
+       ========================================================================== */ -->
+  <section id="certificacoes">
+    <div class="certificacoes-container">
+      <h2><i class="fas fa-award"></i> Cursos & Certificações</h2>
+      
+      <div class="painel-contadores">
+        <div class="contador-item">
+          <h3>60+</h3>
+          <p>Horas de Cursos</p>
+        </div>
+        <div class="contador-item">
+          <h3>CISCO / AWS</h3>
+          <p>Core Focus</p>
+        </div>
+        <div class="contador-item">
+          <h3>100%</h3>
+          <p>Prático</p>
+        </div>
+      </div>
+
+      <div class="grid-certificados">
+        
+        <!-- NOVO - Badge Cisco CCNA (Introduction to Networks) -->
+        <a href="pdfs/CCNA Routing and Switching Introduction to Networks.pdf" download="CCNA_Introduction_to_Networks_Cisco" class="badge-cert">
+          <i class="fas fa-network-wired cert-icon"></i>
+          <span>Cisco CCNA: Intro to Networks</span>
+        </a>
+        
+        <!-- Badge AWS -->
+        <a href="pdfs/certificado-aws.pdf" download="Certificado_AWS_Renan" class="badge-cert">
+          <i class="fab fa-aws cert-icon"></i>
+          <span>AWS Cloud Practitioner</span>
+        </a>
+
+        <!-- Badge Salesforce -->
+        <a href="pdfs/certificado-salesforce.pdf" download="Certificado_Salesforce_Renan" class="badge-cert">
+          <i class="fab fa-salesforce cert-icon"></i>
+          <span>Salesforce Developer</span>
+        </a>
+
+        <!-- Badge Python -->
+        <a href="pdfs/certificado-python.pdf" download="Certificado_Python_Renan" class="badge-cert">
+          <i class="fab fa-python cert-icon"></i>
+          <span>Python Data Science</span>
+        </a>
+
+        <!-- Badge Neo4j -->
+        <a href="pdfs/certificado-neo4j.pdf" download="Certificado_Neo4j_Renan" class="badge-cert">
+          <i class="fas fa-database cert-icon"></i>
+          <span>Neo4j Graph Academy</span>
+        </a>
+
+        <!-- Badge Inteligência Artificial -->
+        <a href="pdfs/certificado-ia.pdf" download="Certificado_IA_Renan" class="badge-cert">
+          <i class="fas fa-brain cert-icon"></i>
+          <span>Machine Learning</span>
+        </a>
+
+      </div>
+
+      <div class="instituicoes-logos">
+        <i class="fab fa-aws" title="Amazon Web Services"></i>
+        <i class="fab fa-salesforce" title="Salesforce"></i>
+        <i class="fab fa-python" title="Python Institute"></i>
+        <i class="fas fa-graduation-cap" title="Cisco Academy"></i>
+      </div>
+    </div>
+  </section>
+
+  <section id="material" class="hotmart-box">
+    <h2>🚀 Domine a Informática de Vez</h2>
+    <p>Curso completo do zero ao avançado focado em aprovação.</p>
+    <a href="https://hotmart.com/seu-link" class="btn-hotmart" target="_blank">QUERO MEU ACESSO AGORA</a>
+  </section>
+
+  <footer id="contato">
+    <div class="social-links" style="margin-bottom: 30px;">
+      <a href="mailto:prof.renanpalheta@gmail.com"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/renan-palheta/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://instagram.com/engrpalheta" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://github.com/renanpalheta" target="_blank"><i class="fab fa-github"></i></a>
+    </div>
+    <p>&copy; 2026 - Renan Palheta. Engenharia da Computação e Educação.</p>
+  </footer>
+
+</body>
+</html>
