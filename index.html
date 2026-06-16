@@ -228,7 +228,7 @@
     }
 
     /* ==========================================================================
-       ESTILOS EXCLUSIVOS DA SEÇÃO DE CERTIFICAÇÕES (INSPIRADO NO CARLOS)
+       ESTILOS EXCLUSIVOS DA SEÇÃO DE CERTIFICAÇÕES
        ========================================================================== */
     .certificacoes-container {
       background-color: #0b1528;
@@ -361,6 +361,27 @@
       color: #8892b0;
     }
 
+    .badge-cert.em-andamento {
+      opacity: 0.5;
+      cursor: default;
+    }
+    
+    .badge-cert.em-andamento:hover {
+      transform: none;
+      background: rgba(255, 255, 255, 0.02);
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+    }
+
+    .badge-cert.em-andamento:hover i.cert-icon {
+      color: #8892b0;
+      transform: none;
+    }
+
+    .badge-cert.em-andamento::after {
+      display: none;
+    }
+
     .hotmart-box {
       background: white;
       padding: 60px 40px;
@@ -436,7 +457,7 @@
             Minha trajetória une o rigor técnico da engenharia com a didática necessária para aprovação em concursos públicos.
           </p>
           <p>
-            Atualmente morando em Uberlândia, foco minha pesquisa de mestrado em <strong>Inteligência Artificial e análise de dados complexos com Neo4j</strong>, explorando o potencial de bancos de dados em grafos para segurança e IoT.
+            Atualmente morando in Uberlândia, foco minha pesquisa de mestrado em <strong>Inteligência Artificial e análise de dados complexos com Neo4j</strong>, explorando o potencial de bancos de dados em grafos para segurança e IoT.
           </p>
           
           <div class="about-highlights">
@@ -458,11 +479,12 @@
         <strong>Materiais Gratuitos (PDF)</strong>
         <p>Conteúdo didático focado nos principais editais do país (FGV, CESPE, VUNESP).</p>
         <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
-          <a href="pdfs/informatica-basica.pdf" class="pdf-link" target="_blank">
+          <!-- Ajustado para ler da pasta 'materiais' -->
+          <a href="materiais/informatica-basica.pdf" class="pdf-link" target="_blank">
             <i class="fas fa-file-pdf"></i>
             <div>Informática Básica <small>Windows, Word, Excel e Power Point</small></div>
           </a>
-          <a href="pdfs/seguranca-redes.pdf" class="pdf-link" target="_blank">
+          <a href="materiais/seguranca-redes.pdf" class="pdf-link" target="_blank">
             <i class="fas fa-file-pdf"></i>
             <div>Segurança e Redes <small>Criptografia e Protocolos</small></div>
           </a>
@@ -511,7 +533,7 @@
   </section>
 
   <!-- ==========================================================================
-       SEÇÃO DE CERTIFICAÇÕES (ESTILO DARK PREMIUM)
+       SEÇÃO DE CERTIFICAÇÕES (AJUSTADO PARA A PASTA 'certificados')
        ========================================================================== */ -->
   <section id="certificacoes">
     <div class="certificacoes-container">
@@ -527,48 +549,44 @@
           <p>Core Focus</p>
         </div>
         <div class="contador-item">
-          <h3>100%</h3>
-          <p>Prático</p>
+          <h3>Status</h3>
+          <p>Em Evolução</p>
         </div>
       </div>
 
       <div class="grid-certificados">
         
-        <!-- NOVO - Badge Cisco CCNA (Introduction to Networks) -->
-        <a href="pdfs/CCNA Routing and Switching Introduction to Networks.pdf" download="CCNA_Introduction_to_Networks_Cisco" class="badge-cert">
+        <!-- Ajustado para ler da pasta 'certificados' --[cite: 1] -->
+        <a href="certificados/CCNA Routing and Switching Introduction to Networks.pdf" download="CCNA_Introduction_to_Networks_Cisco" class="badge-cert">
           <i class="fas fa-network-wired cert-icon"></i>
           <span>Cisco CCNA: Intro to Networks</span>
         </a>
         
-        <!-- Badge AWS -->
-        <a href="pdfs/certificado-aws.pdf" download="Certificado_AWS_Renan" class="badge-cert">
+        <!-- Outros cursos futuros marcados como 'em-andamento' -->
+        <div class="badge-cert em-andamento" title="Curso em andamento">
           <i class="fab fa-aws cert-icon"></i>
           <span>AWS Cloud Practitioner</span>
-        </a>
+        </div>
 
-        <!-- Badge Salesforce -->
-        <a href="pdfs/certificado-salesforce.pdf" download="Certificado_Salesforce_Renan" class="badge-cert">
+        <div class="badge-cert em-andamento" title="Curso em andamento">
           <i class="fab fa-salesforce cert-icon"></i>
           <span>Salesforce Developer</span>
-        </a>
+        </div>
 
-        <!-- Badge Python -->
-        <a href="pdfs/certificado-python.pdf" download="Certificado_Python_Renan" class="badge-cert">
+        <div class="badge-cert em-andamento" title="Curso em andamento">
           <i class="fab fa-python cert-icon"></i>
           <span>Python Data Science</span>
-        </a>
+        </div>
 
-        <!-- Badge Neo4j -->
-        <a href="pdfs/certificado-neo4j.pdf" download="Certificado_Neo4j_Renan" class="badge-cert">
+        <div class="badge-cert em-andamento" title="Curso em andamento">
           <i class="fas fa-database cert-icon"></i>
           <span>Neo4j Graph Academy</span>
-        </a>
+        </div>
 
-        <!-- Badge Inteligência Artificial -->
-        <a href="pdfs/certificado-ia.pdf" download="Certificado_IA_Renan" class="badge-cert">
+        <div class="badge-cert em-andamento" title="Curso em andamento">
           <i class="fas fa-brain cert-icon"></i>
           <span>Machine Learning</span>
-        </a>
+        </div>
 
       </div>
 
