@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/renanpalheta/profrenanpalheta/raw/main/materiais/informatica-basica.pdf" alt="Logo" width="0" style="display:none;">
+  <img src="https://raw.githubusercontent.com/renanpalheta/profrenanpalheta/main/LOGO_PROF.png" alt="Logo Prof Renan Palheta" width="150">
   
   # PROFRENANPALHETA
   
