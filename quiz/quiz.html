@@ -33,8 +33,40 @@
                 <p class="text-lg text-gray-500 animate-pulse">Carregando banco de questões...</p>
             </div>
             
+            <div id="menu-disciplinas" class="hidden fade-in text-center py-4">
+                <h2 class="text-xl font-bold text-[#1b2a47] mb-2">Escolha uma Disciplina para Treinar:</h2>
+                <p class="text-sm text-gray-500 mb-6">Cada simulado contém questões focadas de nível fundamental.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button onclick="selecionarDisciplina('Sistemas Operacionais')" class="p-5 text-left bg-blue-50 hover:bg-blue-100/70 border border-blue-200 rounded-xl transition cursor-pointer group">
+                        <span class="block text-2xl mb-1">💻</span>
+                        <span class="block font-bold text-[#1b2a47] group-hover:text-[#1c6eb8]">Sistemas Operacionais</span>
+                        <span class="text-xs text-gray-500">Windows, pastas, arquivos e atalhos.</span>
+                    </button>
+
+                    <button onclick="selecionarDisciplina('Internet e Redes')" class="p-5 text-left bg-purple-55 bg-purple-50 hover:bg-purple-100/70 border border-purple-200 rounded-xl transition cursor-pointer group">
+                        <span class="block text-2xl mb-1">🌐</span>
+                        <span class="block font-bold text-[#1b2a47] group-hover:text-purple-600">Internet, LAN e WAN</span>
+                        <span class="text-xs text-gray-500">Navegadores, redes e protocolos.</span>
+                    </button>
+
+                    <button onclick="selecionarDisciplina('Microsoft Word')" class="p-5 text-left bg-emerald-50 hover:bg-emerald-100/70 border border-emerald-200 rounded-xl transition cursor-pointer group">
+                        <span class="block text-2xl mb-1">📝</span>
+                        <span class="block font-bold text-[#1b2a47] group-hover:text-emerald-600">Microsoft Word</span>
+                        <span class="text-xs text-gray-500">Edição de texto e formatação.</span>
+                    </button>
+
+                    <button onclick="selecionarDisciplina('Microsoft Excel')" class="p-5 text-left bg-amber-50 hover:bg-amber-100/70 border border-amber-200 rounded-xl transition cursor-pointer group">
+                        <span class="block text-2xl mb-1">📊</span>
+                        <span class="block font-bold text-[#1b2a47] group-hover:text-amber-600">Microsoft Excel</span>
+                        <span class="text-xs text-gray-500">Contas básicas: soma, subtração, etc.</span>
+                    </button>
+                </div>
+            </div>
+
             <div id="quiz-content" class="hidden">
                 <div class="flex flex-wrap gap-2 mb-4 text-xs font-semibold text-[#1c6eb8]">
+                    <span id="q-disciplina" class="bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full"></span>
                     <span id="q-banca" class="bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100"></span>
                     <span id="q-orgao" class="bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full"></span>
                 </div>
@@ -61,20 +93,20 @@
             </div>
         </div>
 
-        <div class="flex justify-between items-center mt-4 text-sm text-gray-500 px-2">
+        <div id="quiz-footer" class="flex justify-between items-center mt-4 text-sm text-gray-500 px-2 hidden">
             <span id="quiz-progresso">Questão 0 de 0</span>
             <span id="quiz-pontuacao" class="font-semibold text-[#1c6eb8]">Acertos: 0%</span>
         </div>
     </div>
 
     <script>
-        let questoes = [];
+        let todasQuestoes = [];
+        let questoesFiltradas = [];
         let indiceAtual = 0;
         let respostaSelecionada = null;
         let acertos = 0;
         let totalRespondidas = 0;
 
-        // 1. CARREGA O ARQUIVO JSON CORRETO
         async function carregarQuiz() {
             try {
                 const response = await fetch('base_quiz_questoes.json');
@@ -82,72 +114,57 @@
                     throw new Error(`Erro HTTP! status: ${response.status}`);
                 }
                 const data = await response.json();
-                questoes = data.questoes;
+                todasQuestoes = data.questoes;
                 
+                // Esconde o loading e mostra o menu de escolha
                 document.getElementById('loading').classList.add('hidden');
-                document.getElementById('quiz-content').classList.remove('hidden');
-                
-                exibirQuestao();
+                document.getElementById('menu-disciplinas').classList.remove('hidden');
             } catch (error) {
                 console.error("Erro ao carregar o JSON:", error);
                 document.getElementById('loading').innerHTML = `
                     <div class="text-center p-6">
                         <p class="text-red-500 font-semibold mb-2">Erro ao carregar as questões!</p>
-                        <p class="text-xs text-gray-500">Verifique se o arquivo <code class="bg-gray-100 px-1 py-0.5 rounded">base_quiz_questoes.json</code> está no repositório.</p>
+                        <p class="text-xs text-gray-500">Verifique o arquivo JSON.</p>
                     </div>`;
             }
         }
 
-        // FUNÇÃO DE BACKUP: Tenta extrair a letra correta com base no texto do comentário
-        function minerarGabaritoDoComentario(comentario, alternativas) {
-            if (!comentario) return "a";
+        // NOVO: Filtra as questões com base no botão clicado
+        function selecionarDisciplina(nomeDisciplina) {
+            questoesFiltradas = todasQuestoes.filter(q => q.disciplina === nomeDisciplina);
             
-            const textoLimpo = comentario.toLowerCase();
+            if (questoesFiltradas.length === 0) {
+                alert("Em breve teremos questões para esta disciplina!");
+                return;
+            }
+
+            // Reseta contadores do simulado
+            indiceAtual = 0;
+            acertos = 0;
+            totalRespondidas = 0;
+            document.getElementById('quiz-pontuacao').innerText = `Acertos: 0%`;
+
+            // Alterna as telas
+            document.getElementById('menu-disciplinas').classList.add('hidden');
+            document.getElementById('quiz-content').classList.remove('hidden');
+            document.getElementById('quiz-footer').classList.remove('hidden');
             
-            // Caso 1: Procura por padrões explícitos como "gabarito: c" ou "gabarito oficial: certo"
-            const matchGabarito = textoLimpo.match(/gabarito\s*(?:oficial)?\s*:\s*([a-e]|certo|errado)/);
-            if (matchGabarito) {
-                let res = matchGabarito[1];
-                if (res === "certo") return "a";
-                if (res === "errado") return "b";
-                return res;
-            }
-
-            // Caso 2: Se for Certo/Errado (2 alternativas), checa se a palavra "certo" ou "errado" aparece isolada
-            if (alternativas.length === 2) {
-                if (textoLimpo.includes("item correto") || textoLimpo.includes("afirmativa verdadeira") || textoLimpo.includes(") certo")) {
-                    return "a";
-                }
-                if (textoLimpo.includes("item errado") || textoLimpo.includes("afirmativa falsa") || textoLimpo.includes(") errado")) {
-                    return "b";
-                }
-            }
-
-            // Caso 3: Procura pela primeira alternativa repetida no fim do PDF (padrão estrutural do seu acervo)
-            const matchLetraFinal = textoLimpo.match(/([a-e])\)\s*[a-z0-9]/g);
-            if (matchLetraFinal && matchLetraFinal.length > 0) {
-                // Pega o indicador de letra que aparece isolado no padrão do gabarito comentado
-                const ultimaOcorrencia = matchLetraFinal[matchLetraFinal.length - 1];
-                const letraExtraida = ultimaOcorrencia.charAt(0);
-                return letraExtraida;
-            }
-
-            return "a"; // Fallback padrão seguro para evitar quebras de execução
+            exibirQuestao();
         }
 
-        // 2. Renderiza a questão atual na tela
         function exibirQuestao() {
-            if (indiceAtual >= questoes.length) {
+            if (indiceAtual >= questoesFiltradas.length) {
                 finalizarQuiz();
                 return;
             }
 
-            const q = questoes[indiceAtual];
+            const q = questoesFiltradas[indiceAtual];
             respostaSelecionada = null;
             
+            document.getElementById('q-disciplina').innerText = q.disciplina;
             document.getElementById('q-banca').innerText = `Banca: ${q.banca || 'Concurso'}`;
-            document.getElementById('q-orgao').innerText = `Órgão/Cargo: ${q.orgao || 'Geral'} | ${q.cargo || 'TI'}`;
-            document.getElementById('q-enunciado').innerText = `${q.id || (indiceAtual + 1)}. ${q.enunciado}`;
+            document.getElementById('q-orgao').innerText = `Órgão: ${q.orgao || 'Geral'}`;
+            document.getElementById('q-enunciado').innerText = `${indiceAtual + 1}. ${q.enunciado}`;
             
             document.getElementById('feedback-box').className = "mt-6 p-5 rounded-xl hidden fade-in";
             document.getElementById('btn-responder').disabled = true;
@@ -156,16 +173,7 @@
             const containerAlternativas = document.getElementById('q-alternativas');
             containerAlternativas.innerHTML = '';
 
-            // NORMALIZAÇÃO: Se não houver alternativas (Questões estilo Certo/Errado do Cebraspe), gera os botões automaticamente
-            let listaAlternativas = q.alternativas;
-            if (!listaAlternativas || listaAlternativas.length === 0) {
-                listaAlternativas = [
-                    { letra: "a", texto: "Certo" },
-                    { letra: "b", texto: "Errado" }
-                ];
-            }
-
-            listaAlternativas.forEach(alt => {
+            q.alternativas.forEach(alt => {
                 const btn = document.createElement('button');
                 btn.className = "w-full text-left px-5 py-3.5 rounded-xl border border-gray-200 hover:bg-blue-50/50 hover:border-[#1c6eb8]/30 transition duration-150 text-sm md:text-base flex gap-3 cursor-pointer items-center";
                 btn.innerHTML = `<span class="font-bold text-[#1c6eb8] bg-blue-50 w-6 h-6 rounded-full flex items-center justify-center text-xs uppercase">${alt.letra}</span> <span class="text-gray-700">${alt.texto}</span>`;
@@ -174,10 +182,9 @@
                 containerAlternativas.appendChild(btn);
             });
 
-            document.getElementById('quiz-progresso').innerText = `Questão ${indiceAtual + 1} de ${questoes.length}`;
+            document.getElementById('quiz-progresso').innerText = `Questão ${indiceAtual + 1} de ${questoesFiltradas.length}`;
         }
 
-        // 3. Gerencia a seleção da alternativa
         function selecionarAlternativa(elemento, letra) {
             const botoes = document.getElementById('q-alternativas').children;
             for (let btn of botoes) {
@@ -189,43 +196,36 @@
             document.getElementById('btn-responder').disabled = false;
         }
 
-        // 4. Valida se o usuário acertou e mostra os comentários do PDF
-        function verificarResposta() {
-            const q = questoes[indiceAtual];
-            const feedbackBox = document.getElementById('feedback-box');
-            const feedbackIcon = document.getElementById('feedback-icon');
-            const feedbackTitulo = document.getElementById('feedback-titulo');
-            const comentarioTexto = document.getElementById('q-comentario');
-            
-            document.getElementById('btn-responder').classList.add('hidden');
-            totalRespondidas++;
+        if (typeof verificarResposta !== 'function') {
+            window.verificarResposta = function() {
+                const q = questoesFiltradas[indiceAtual];
+                const feedbackBox = document.getElementById('feedback-box');
+                const feedbackIcon = document.getElementById('feedback-icon');
+                const feedbackTitulo = document.getElementById('feedback-titulo');
+                const comentarioTexto = document.getElementById('q-comentario');
+                
+                document.getElementById('btn-responder').classList.add('hidden');
+                totalRespondidas++;
 
-            // AJUSTE INTELIGENTE: Pega o gabarito explícito ou roda a mineração de dados no comentário
-            let listaAlternativasModificada = q.alternativas || [];
-            if (listaAlternativasModificada.length === 0) {
-                listaAlternativasModificada = [{letra:"a"}, {letra:"b"}];
+                const acertou = (respostaSelecionada.toLowerCase() === q.resposta_correta.toLowerCase());
+
+                if (acertou) {
+                    acertos++;
+                    feedbackBox.className = "mt-6 p-5 rounded-xl bg-green-50 border border-green-200 text-green-950 fade-in";
+                    feedbackIcon.innerText = "✅";
+                    feedbackTitulo.innerText = "Resposta Correta!";
+                } else {
+                    feedbackBox.className = "mt-6 p-5 rounded-xl bg-red-50 border border-red-200 text-red-950 fade-in";
+                    feedbackIcon.innerText = "❌";
+                    feedbackTitulo.innerText = `Resposta Incorreta (Gabarito Oficial: ${q.resposta_correta.toUpperCase()})`;
+                }
+
+                comentarioTexto.innerText = q.comentario || "Nenhum comentário adicional.";
+                feedbackBox.classList.remove('hidden');
+
+                const pct = Math.round((acertos / totalRespondidas) * 100);
+                document.getElementById('quiz-pontuacao').innerText = `Acertos: ${pct}%`;
             }
-            
-            const gabaritoOficial = q.resposta_correta ? q.resposta_correta.trim() : minerarGabaritoDoComentario(q.comentario, listaAlternativasModificada);
-
-            const acertou = (respostaSelecionada.toLowerCase() === gabaritoOficial.toLowerCase());
-
-            if (acertou) {
-                acertos++;
-                feedbackBox.className = "mt-6 p-5 rounded-xl bg-green-50 border border-green-200 text-green-950 fade-in";
-                feedbackIcon.innerText = "✅";
-                feedbackTitulo.innerText = "Resposta Correta!";
-            } else {
-                feedbackBox.className = "mt-6 p-5 rounded-xl bg-red-50 border border-red-200 text-red-950 fade-in";
-                feedbackIcon.innerText = "❌";
-                feedbackTitulo.innerText = `Resposta Incorreta (Gabarito Oficial: ${gabaritoOficial.toUpperCase()})`;
-            }
-
-            comentarioTexto.innerText = q.comentario ? q.comentario : "Nenhum comentário adicional para esta questão.";
-            feedbackBox.classList.remove('hidden');
-
-            const pct = Math.round((acertos / totalRespondidas) * 100);
-            document.getElementById('quiz-pontuacao').innerText = `Acertos: ${pct}%`;
         }
 
         function proximaQuestao() {
@@ -236,17 +236,25 @@
         function finalizarQuiz() {
             document.getElementById('quiz-content').innerHTML = `
                 <div class="text-center py-8 fade-in">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">🎉 Quiz Concluído!</h2>
-                    <p class="text-gray-600 mb-6">Você respondeu todas as questões disponíveis neste simulado.</p>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">🎉 Simulado Concluído!</h2>
+                    <p class="text-gray-600 mb-6">Você terminou a disciplina selecionada.</p>
                     <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 inline-block min-w-[200px] mb-6">
                         <span class="block text-4xl font-extrabold text-[#1b2a47]">${acertos} / ${totalRespondidas}</span>
                         <span class="text-xs font-semibold text-[#1c6eb8] uppercase tracking-wider">Questões Acertadas</span>
                     </div>
-                    <button onclick="location.reload()" class="block mx-auto bg-[#1c6eb8] hover:bg-[#1b2a47] text-white font-medium py-2.5 px-6 rounded-xl transition cursor-pointer shadow-sm">
-                        Refazer Quiz
+                    <button onclick="voltarAoMenu()" class="block mx-auto bg-[#1c6eb8] hover:bg-[#1b2a47] text-white font-medium py-2.5 px-6 rounded-xl transition cursor-pointer shadow-sm">
+                        Escolher Outra Disciplina
                     </button>
                 </div>
             `;
+        }
+
+        function voltarAoMenu() {
+            document.getElementById('quiz-content').classList.add('hidden');
+            document.getElementById('quiz-footer').classList.add('hidden');
+            document.getElementById('menu-disciplinas').classList.remove('hidden');
+            // Recarrega a estrutura interna do box de questões
+            location.reload();
         }
 
         carregarQuiz();
