@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz de Informática - Prof. Renan Palheta</title>
-    <link rel="icon" href="../LOGO_PROF.png"> 
+    <link class="fade-in" rel="icon" href="../LOGO_PROF.png"> 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
@@ -33,37 +33,43 @@
                 <p class="text-lg text-gray-500 animate-pulse">Carregando banco de questões...</p>
             </div>
             
+            <!-- TELA DE SELEÇÃO DE DISCIPLINAS (MENU PRINCIPAL) -->
             <div id="menu-disciplinas" class="hidden fade-in text-center py-4">
-                <h2 class="text-xl font-bold text-[#1b2a47] mb-2">Escolha uma Disciplina para Treinar:</h2>
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Escolha uma Disciplina para Treinar:</h2>
                 <p class="text-sm text-gray-500 mb-6">Cada simulado contém questões focadas de nível fundamental.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button onclick="selecionarDisciplina('Sistemas Operacionais')" class="p-5 text-left bg-blue-50 hover:bg-blue-100/70 border border-blue-200 rounded-xl transition cursor-pointer group">
+                    <!-- CARD 1: SISTEMAS OPERACIONAIS -->
+                    <button onclick="selecionarDisciplina('Sistemas Operacionais')" class="p-5 text-left bg-blue-50 hover:bg-blue-100/70 border border-blue-200 rounded-xl transition cursor-pointer group shadow-xs">
                         <span class="block text-2xl mb-1">💻</span>
                         <span class="block font-bold text-[#1b2a47] group-hover:text-[#1c6eb8]">Sistemas Operacionais</span>
-                        <span class="text-xs text-gray-500">Windows, pastas, arquivos e atalhos.</span>
+                        <span class="text-xs text-gray-500">Windows, Linux, pastas, arquivos e atalhos.</span>
                     </button>
 
-                    <button onclick="selecionarDisciplina('Internet e Redes')" class="p-5 text-left bg-purple-55 bg-purple-50 hover:bg-purple-100/70 border border-purple-200 rounded-xl transition cursor-pointer group">
+                    <!-- CARD 2: INTERNET E REDES -->
+                    <button onclick="selecionarDisciplina('Internet e Redes')" class="p-5 text-left bg-purple-50 hover:bg-purple-100/70 border border-purple-200 rounded-xl transition cursor-pointer group shadow-xs">
                         <span class="block text-2xl mb-1">🌐</span>
                         <span class="block font-bold text-[#1b2a47] group-hover:text-purple-600">Internet, LAN e WAN</span>
-                        <span class="text-xs text-gray-500">Navegadores, redes e protocolos.</span>
+                        <span class="text-xs text-gray-500">Navegadores, e-mail, redes e protocolos.</span>
                     </button>
 
-                    <button onclick="selecionarDisciplina('Microsoft Word')" class="p-5 text-left bg-emerald-50 hover:bg-emerald-100/70 border border-emerald-200 rounded-xl transition cursor-pointer group">
-                        <span class="block text-2xl mb-1">📝</span>
-                        <span class="block font-bold text-[#1b2a47] group-hover:text-emerald-600">Microsoft Word</span>
-                        <span class="text-xs text-gray-500">Edição de texto e formatação.</span>
+                    <!-- CARD 3: MICROSOFT OFFICE -->
+                    <button onclick="selecionarDisciplina('Microsoft Office')" class="p-5 text-left bg-emerald-50 hover:bg-emerald-100/70 border border-emerald-200 rounded-xl transition cursor-pointer group shadow-xs">
+                        <span class="block text-2xl mb-1">💼</span>
+                        <span class="block font-bold text-[#1b2a47] group-hover:text-emerald-600">Microsoft Office</span>
+                        <span class="text-xs text-gray-500">Questões integradas de Word, Excel e PowerPoint.</span>
                     </button>
 
-                    <button onclick="selecionarDisciplina('Microsoft Excel')" class="p-5 text-left bg-amber-50 hover:bg-amber-100/70 border border-amber-200 rounded-xl transition cursor-pointer group">
-                        <span class="block text-2xl mb-1">📊</span>
-                        <span class="block font-bold text-[#1b2a47] group-hover:text-amber-600">Microsoft Excel</span>
-                        <span class="text-xs text-gray-500">Contas básicas: soma, subtração, etc.</span>
+                    <!-- CARD 4: HARDWARE E SOFTWARE -->
+                    <button onclick="selecionarDisciplina('Hardware e Software')" class="p-5 text-left bg-amber-50 hover:bg-amber-100/70 border border-amber-200 rounded-xl transition cursor-pointer group shadow-xs">
+                        <span class="block text-2xl mb-1">⚙️</span>
+                        <span class="block font-bold text-[#1b2a47] group-hover:text-amber-600">Hardware e Software</span>
+                        <span class="text-xs text-gray-500">Componentes físicos, memórias e tipos de programas.</span>
                     </button>
                 </div>
             </div>
 
+            <!-- ÁREA DO QUIZ -->
             <div id="quiz-content" class="hidden">
                 <div class="flex flex-wrap gap-2 mb-4 text-xs font-semibold text-[#1c6eb8]">
                     <span id="q-disciplina" class="bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full"></span>
@@ -109,14 +115,14 @@
 
         async function carregarQuiz() {
             try {
-                const response = await fetch('base_quiz_questoes.json');
+                // Buscando temporariamente do arquivo de rascunho de testes
+                const response = await fetch('respostasatualizadas.json');
                 if (!response.ok) {
                     throw new Error(`Erro HTTP! status: ${response.status}`);
                 }
                 const data = await response.json();
                 todasQuestoes = data.questoes;
                 
-                // Esconde o loading e mostra o menu de escolha
                 document.getElementById('loading').classList.add('hidden');
                 document.getElementById('menu-disciplinas').classList.remove('hidden');
             } catch (error) {
@@ -124,17 +130,25 @@
                 document.getElementById('loading').innerHTML = `
                     <div class="text-center p-6">
                         <p class="text-red-500 font-semibold mb-2">Erro ao carregar as questões!</p>
-                        <p class="text-xs text-gray-500">Verifique o arquivo JSON.</p>
+                        <p class="text-xs text-gray-500">Verifique se o arquivo JSON de testes está no diretório correto.</p>
                     </div>`;
             }
         }
 
-        // NOVO: Filtra as questões com base no botão clicado
+        // Filtra as questões com base no botão clicado (com agrupamento dinâmico para Office)
         function selecionarDisciplina(nomeDisciplina) {
-            questoesFiltradas = todasQuestoes.filter(q => q.disciplina === nomeDisciplina);
+            if (nomeDisciplina === 'Microsoft Office') {
+                questoesFiltradas = todasQuestoes.filter(q => 
+                    q.disciplina === 'Microsoft Word' || 
+                    q.disciplina === 'Microsoft Excel' || 
+                    q.disciplina === 'Microsoft PowerPoint'
+                );
+            } else {
+                questoesFiltradas = todasQuestoes.filter(q => q.disciplina === nomeDisciplina);
+            }
             
             if (questoesFiltradas.length === 0) {
-                alert("Em breve teremos questões para esta disciplina!");
+                alert("Em breve teremos novas questões cadastradas para esta disciplina!");
                 return;
             }
 
@@ -196,36 +210,34 @@
             document.getElementById('btn-responder').disabled = false;
         }
 
-        if (typeof verificarResposta !== 'function') {
-            window.verificarResposta = function() {
-                const q = questoesFiltradas[indiceAtual];
-                const feedbackBox = document.getElementById('feedback-box');
-                const feedbackIcon = document.getElementById('feedback-icon');
-                const feedbackTitulo = document.getElementById('feedback-titulo');
-                const comentarioTexto = document.getElementById('q-comentario');
-                
-                document.getElementById('btn-responder').classList.add('hidden');
-                totalRespondidas++;
+        function verificarResposta() {
+            const q = questoesFiltradas[indiceAtual];
+            const feedbackBox = document.getElementById('feedback-box');
+            const feedbackIcon = document.getElementById('feedback-icon');
+            const feedbackTitulo = document.getElementById('feedback-titulo');
+            const comentarioTexto = document.getElementById('q-comentario');
+            
+            document.getElementById('btn-responder').classList.add('hidden');
+            totalRespondidas++;
 
-                const acertou = (respostaSelecionada.toLowerCase() === q.resposta_correta.toLowerCase());
+            const acertou = (respostaSelecionada.toLowerCase() === q.resposta_correta.toLowerCase());
 
-                if (acertou) {
-                    acertos++;
-                    feedbackBox.className = "mt-6 p-5 rounded-xl bg-green-50 border border-green-200 text-green-950 fade-in";
-                    feedbackIcon.innerText = "✅";
-                    feedbackTitulo.innerText = "Resposta Correta!";
-                } else {
-                    feedbackBox.className = "mt-6 p-5 rounded-xl bg-red-50 border border-red-200 text-red-950 fade-in";
-                    feedbackIcon.innerText = "❌";
-                    feedbackTitulo.innerText = `Resposta Incorreta (Gabarito Oficial: ${q.resposta_correta.toUpperCase()})`;
-                }
-
-                comentarioTexto.innerText = q.comentario || "Nenhum comentário adicional.";
-                feedbackBox.classList.remove('hidden');
-
-                const pct = Math.round((acertos / totalRespondidas) * 100);
-                document.getElementById('quiz-pontuacao').innerText = `Acertos: ${pct}%`;
+            if (acertou) {
+                acertos++;
+                feedbackBox.className = "mt-6 p-5 rounded-xl bg-green-50 border border-green-200 text-green-950 fade-in";
+                feedbackIcon.innerText = "✅";
+                feedbackTitulo.innerText = "Resposta Correta!";
+            } else {
+                feedbackBox.className = "mt-6 p-5 rounded-xl bg-red-50 border border-red-200 text-red-950 fade-in";
+                feedbackIcon.innerText = "❌";
+                feedbackTitulo.innerText = `Resposta Incorreta (Gabarito Oficial: ${q.resposta_correta.toUpperCase()})`;
             }
+
+            comentarioTexto.innerText = q.comentario || "Nenhum comentário adicional.";
+            feedbackBox.classList.remove('hidden');
+
+            const pct = Math.round((acertos / totalRespondidas) * 100);
+            document.getElementById('quiz-pontuacao').innerText = `Acertos: ${pct}%`;
         }
 
         function proximaQuestao() {
@@ -237,7 +249,7 @@
             document.getElementById('quiz-content').innerHTML = `
                 <div class="text-center py-8 fade-in">
                     <h2 class="text-2xl font-bold text-gray-900 mb-2">🎉 Simulado Concluído!</h2>
-                    <p class="text-gray-600 mb-6">Você terminou a disciplina selecionada.</p>
+                    <p class="text-gray-600 mb-6">Você terminou os exercícios da categoria selecionada.</p>
                     <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 inline-block min-w-[200px] mb-6">
                         <span class="block text-4xl font-extrabold text-[#1b2a47]">${acertos} / ${totalRespondidas}</span>
                         <span class="text-xs font-semibold text-[#1c6eb8] uppercase tracking-wider">Questões Acertadas</span>
@@ -250,10 +262,6 @@
         }
 
         function voltarAoMenu() {
-            document.getElementById('quiz-content').classList.add('hidden');
-            document.getElementById('quiz-footer').classList.add('hidden');
-            document.getElementById('menu-disciplinas').classList.remove('hidden');
-            // Recarrega a estrutura interna do box de questões
             location.reload();
         }
 
