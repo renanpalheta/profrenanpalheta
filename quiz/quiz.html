@@ -74,7 +74,7 @@
         let acertos = 0;
         let totalRespondidas = 0;
 
-        // 1. CARREGA O ARQUIVO JSON CORRETO (base_quiz_questoes.json)
+        // 1. CARREGA O ARQUIVO JSON CORRETO
         async function carregarQuiz() {
             try {
                 const response = await fetch('base_quiz_questoes.json');
@@ -93,9 +93,46 @@
                 document.getElementById('loading').innerHTML = `
                     <div class="text-center p-6">
                         <p class="text-red-500 font-semibold mb-2">Erro ao carregar as questões!</p>
-                        <p class="text-xs text-gray-500">Verifique se o arquivo <code class="bg-gray-100 px-1 py-0.5 rounded">base_quiz_questoes.json</code> está na mesma pasta que este HTML e se está rodando o projeto através do Live Server.</p>
+                        <p class="text-xs text-gray-500">Verifique se o arquivo <code class="bg-gray-100 px-1 py-0.5 rounded">base_quiz_questoes.json</code> está no repositório.</p>
                     </div>`;
             }
+        }
+
+        // FUNÇÃO DE BACKUP: Tenta extrair a letra correta com base no texto do comentário
+        function minerarGabaritoDoComentario(comentario, alternativas) {
+            if (!comentario) return "a";
+            
+            const textoLimpo = comentario.toLowerCase();
+            
+            // Caso 1: Procura por padrões explícitos como "gabarito: c" ou "gabarito oficial: certo"
+            const matchGabarito = textoLimpo.match(/gabarito\s*(?:oficial)?\s*:\s*([a-e]|certo|errado)/);
+            if (matchGabarito) {
+                let res = matchGabarito[1];
+                if (res === "certo") return "a";
+                if (res === "errado") return "b";
+                return res;
+            }
+
+            // Caso 2: Se for Certo/Errado (2 alternativas), checa se a palavra "certo" ou "errado" aparece isolada
+            if (alternativas.length === 2) {
+                if (textoLimpo.includes("item correto") || textoLimpo.includes("afirmativa verdadeira") || textoLimpo.includes(") certo")) {
+                    return "a";
+                }
+                if (textoLimpo.includes("item errado") || textoLimpo.includes("afirmativa falsa") || textoLimpo.includes(") errado")) {
+                    return "b";
+                }
+            }
+
+            // Caso 3: Procura pela primeira alternativa repetida no fim do PDF (padrão estrutural do seu acervo)
+            const matchLetraFinal = textoLimpo.match(/([a-e])\)\s*[a-z0-9]/g);
+            if (matchLetraFinal && matchLetraFinal.length > 0) {
+                // Pega o indicador de letra que aparece isolado no padrão do gabarito comentado
+                const ultimaOcorrencia = matchLetraFinal[matchLetraFinal.length - 1];
+                const letraExtraida = ultimaOcorrencia.charAt(0);
+                return letraExtraida;
+            }
+
+            return "a"; // Fallback padrão seguro para evitar quebras de execução
         }
 
         // 2. Renderiza a questão atual na tela
@@ -108,21 +145,27 @@
             const q = questoes[indiceAtual];
             respostaSelecionada = null;
             
-            // Atualiza cabeçalhos e enunciados
             document.getElementById('q-banca').innerText = `Banca: ${q.banca || 'Concurso'}`;
             document.getElementById('q-orgao').innerText = `Órgão/Cargo: ${q.orgao || 'Geral'} | ${q.cargo || 'TI'}`;
             document.getElementById('q-enunciado').innerText = `${q.id || (indiceAtual + 1)}. ${q.enunciado}`;
             
-            // Reseta caixa de feedback e botão
             document.getElementById('feedback-box').className = "mt-6 p-5 rounded-xl hidden fade-in";
             document.getElementById('btn-responder').disabled = true;
             document.getElementById('btn-responder').classList.remove('hidden');
 
-            // Renderiza as alternativas dinamicamente
             const containerAlternativas = document.getElementById('q-alternativas');
             containerAlternativas.innerHTML = '';
 
-            q.alternativas.forEach(alt => {
+            // NORMALIZAÇÃO: Se não houver alternativas (Questões estilo Certo/Errado do Cebraspe), gera os botões automaticamente
+            let listaAlternativas = q.alternativas;
+            if (!listaAlternativas || listaAlternativas.length === 0) {
+                listaAlternativas = [
+                    { letra: "a", texto: "Certo" },
+                    { letra: "b", texto: "Errado" }
+                ];
+            }
+
+            listaAlternativas.forEach(alt => {
                 const btn = document.createElement('button');
                 btn.className = "w-full text-left px-5 py-3.5 rounded-xl border border-gray-200 hover:bg-blue-50/50 hover:border-[#1c6eb8]/30 transition duration-150 text-sm md:text-base flex gap-3 cursor-pointer items-center";
                 btn.innerHTML = `<span class="font-bold text-[#1c6eb8] bg-blue-50 w-6 h-6 rounded-full flex items-center justify-center text-xs uppercase">${alt.letra}</span> <span class="text-gray-700">${alt.texto}</span>`;
@@ -131,7 +174,6 @@
                 containerAlternativas.appendChild(btn);
             });
 
-            // Atualiza progresso no rodapé
             document.getElementById('quiz-progresso').innerText = `Questão ${indiceAtual + 1} de ${questoes.length}`;
         }
 
@@ -158,8 +200,15 @@
             document.getElementById('btn-responder').classList.add('hidden');
             totalRespondidas++;
 
-            // Força a comparação em caixa baixa para evitar problemas de case sensitivity
-            const acertou = (respostaSelecionada.toLowerCase() === q.resposta_correta.toLowerCase());
+            // AJUSTE INTELIGENTE: Pega o gabarito explícito ou roda a mineração de dados no comentário
+            let listaAlternativasModificada = q.alternativas || [];
+            if (listaAlternativasModificada.length === 0) {
+                listaAlternativasModificada = [{letra:"a"}, {letra:"b"}];
+            }
+            
+            const gabaritoOficial = q.resposta_correta ? q.resposta_correta.trim() : minerarGabaritoDoComentario(q.comentario, listaAlternativasModificada);
+
+            const acertou = (respostaSelecionada.toLowerCase() === gabaritoOficial.toLowerCase());
 
             if (acertou) {
                 acertos++;
@@ -169,7 +218,7 @@
             } else {
                 feedbackBox.className = "mt-6 p-5 rounded-xl bg-red-50 border border-red-200 text-red-950 fade-in";
                 feedbackIcon.innerText = "❌";
-                feedbackTitulo.innerText = `Resposta Incorreta (Gabarito Oficial: ${q.resposta_correta.toUpperCase()})`;
+                feedbackTitulo.innerText = `Resposta Incorreta (Gabarito Oficial: ${gabaritoOficial.toUpperCase()})`;
             }
 
             comentarioTexto.innerText = q.comentario ? q.comentario : "Nenhum comentário adicional para esta questão.";
