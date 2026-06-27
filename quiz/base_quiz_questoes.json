@@ -12,7 +12,7 @@
       "alternativas": [
         {
           "letra": "a",
-          "texto": "SSH."
+          "texto": "HTTP."
         },
         {
           "letra": "b",
@@ -24,7 +24,7 @@
         },
         {
           "letra": "d",
-          "texto": "HTTP."
+          "texto": "SSH."
         }
       ],
       "resposta_correta": "",
