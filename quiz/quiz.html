@@ -1,207 +1,31 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Informática - Prof. Renan Palheta</title>
-    <link rel="icon" href="../LOGO_PROF.png"> 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        .fade-in { animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body class="bg-[#f4f7fa] font-sans text-gray-800">
+            feedbackBox.classList.remove('hidden');
 
-    <div class="max-w-3xl mx-auto px-4 py-8">
-        <div class="mb-4">
-            <a href="../index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-[#1c6eb8] hover:text-[#1b2a47] transition">
-                ⬅️ Voltar para o Portfólio
-            </a>
-        </div>
+            const pct = Math.round((acertos / totalRespondidas) * 100);
+            document.getElementById('quiz-pontuacao').innerText = `Acertos: ${pct}%`;
+        }
 
-        <header class="text-center mb-8 border-b border-gray-200 pb-6 flex flex-col items-center gap-3">
-            <div class="bg-[#1b2a47] border-2 border-[#1c6eb8]/30 px-6 py-2 rounded-md shadow-sm font-mono tracking-wider text-xs font-bold text-white flex items-center gap-2">
-                <span>&gt;</span> PROF. RENAN PALHETA
-            </div>
-            <h1 class="text-3xl font-bold text-[#1b2a47] mt-1">🧠 Simulado Geral de Informática</h1>
-            <p class="text-gray-600">Prepare-se para concursos resolvendo questões comentadas passo a passo</p>
-        </header>
+        function proximaQuestao() {
+            indiceAtual++;
+            exibirQuestao();
+        }
 
-        <div id="quiz-container" class="bg-white rounded-2xl shadow-sm p-6 md:p-8 border border-gray-100 fade-in">
-            <div id="loading" class="text-center py-12">
-                <p class="text-lg text-gray-500 animate-pulse">Carregando banco de questões...</p>
-            </div>
-            
-            <div id="quiz-content" class="hidden">
-                <div class="flex flex-wrap gap-2 mb-4 text-xs font-semibold text-[#1c6eb8]">
-                    <span id="q-banca" class="bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100"></span>
-                    <span id="q-orgao" class="bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full"></span>
-                </div>
-
-                <h3 id="q-enunciado" class="text-lg font-medium text-gray-900 mb-6 leading-relaxed"></h3>
-
-                <div id="q-alternativas" class="space-y-3 mb-6"></div>
-
-                <button id="btn-responder" onclick="verificarResposta()" class="w-full bg-[#1c6eb8] hover:bg-[#1b2a47] text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-sm cursor-pointer disabled:opacity-50" disabled>
-                    Verificar Resposta
-                </button>
-
-                <div id="feedback-box" class="mt-6 p-5 rounded-xl hidden fade-in">
-                    <div class="flex items-center gap-2 mb-2 font-bold text-lg">
-                        <span id="feedback-icon"></span>
-                        <span id="feedback-titulo"></span>
+        function finalizarQuiz() {
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="text-center py-8 fade-in">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">🎉 Quiz Concluído!</h2>
+                    <p class="text-gray-600 mb-6">Você respondeu todas as questões disponíveis neste simulado.</p>
+                    <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 inline-block min-w-[200px] mb-6">
+                        <span class="block text-4xl font-extrabold text-[#1b2a47]">${acertos} / ${totalRespondidas}</span>
+                        <span class="text-xs font-semibold text-[#1c6eb8] uppercase tracking-wider">Questões Acertadas</span>
                     </div>
-                    <p id="q-comentario" class="text-sm leading-relaxed text-gray-700 border-t border-black/10 pt-3 mt-2"></p>
-                    
-                    <button onclick="proximaQuestao()" class="mt-4 bg-gray-900 hover:bg-black text-white font-medium py-2 px-6 rounded-lg text-sm transition cursor-pointer">
-                        Próxima Questão ➡️
+                    <button onclick="location.reload()" class="block mx-auto bg-[#1c6eb8] hover:bg-[#1b2a47] text-white font-medium py-2.5 px-6 rounded-xl transition cursor-pointer shadow-sm">
+                        Refazer Quiz
                     </button>
                 </div>
-            </div>
-        </div>
-
-        <div class="flex justify-between items-center mt-4 text-sm text-gray-500 px-2">
-            <span id="quiz-progresso">Questão 0 de 0</span>
-            <span id="quiz-pontuacao" class="font-semibold text-[#1c6eb8]">Acertos: 0%</span>
-        </div>
-    </div>
-
-    <script>
-        let questoes = [];
-        let indiceAtual = 0;
-        let respostaSelecionada = null;
-        let acertos = 0;
-        let totalRespondidas = 0;
-
-        // 1. CARREGA O ARQUIVO JSON (Lê o arquivo local renomeado por você)
-        async function carregarQuiz() {
-            try {
-                const response = await fetch('base_quiz_questoes.json');
-                if (!response.ok) {
-                    throw new Error(`Não foi possível carregar o arquivo JSON (Status: ${response.status})`);
-                }
-                const data = await response.json();
-                
-                // Mapeamento dinâmico para aceitar 'questoes' ou 'questao' gerado pelo script
-                questoes = data.questoes || data.questao || [];
-                
-                if (questoes.length === 0) {
-                    throw new Error("A lista de questões dentro do arquivo JSON está vazia.");
-                }
-                
-                // Esconde a tela de carregamento usando display para evitar travamento de CSS
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('quiz-content').classList.remove('hidden');
-                
-                exibirQuestao();
-            } catch (error) {
-                console.error("Erro detalhado ao carregar o simulado:", error);
-                
-                const loadingDiv = document.getElementById('loading');
-                loadingDiv.classList.remove('animate-pulse');
-                loadingDiv.innerHTML = `
-                    <div class="text-center p-6 bg-red-50 border border-red-200 rounded-xl text-red-900 max-w-xl mx-auto">
-                        <p class="font-bold mb-2">❌ Falha ao Inicializar o Simulado</p>
-                        <p class="text-sm mb-4">${error.message}</p>
-                        <p class="text-xs text-gray-500 bg-white/60 p-2 rounded border border-red-100 text-left font-mono">
-                            Dica: Certifique-se de que o arquivo <span class="font-bold">base_quiz_questoes.json</span> está salvo exatamente na mesma pasta que este HTML.
-                        </p>
-                    </div>`;
-            }
+            `;
         }
 
-        // 2. Renderiza a questão atual na tela
-        function exibirQuestao() {
-            if (indiceAtual >= questoes.length) {
-                finalizarQuiz();
-                return;
-            }
-
-            const q = questoes[indiceAtual];
-            respostaSelecionada = null;
-            
-            // Atualiza cabeçalhos e enunciados
-            document.getElementById('q-banca').innerText = `Banca: ${q.banca || 'Concurso'}`;
-            document.getElementById('q-orgao').innerText = `Órgão/Cargo: ${q.orgao || 'Geral'} | ${q.cargo || 'TI'}`;
-            document.getElementById('q-enunciado').innerText = `${q.id || (indiceAtual + 1)}. ${q.enunciado}`;
-            
-            // Reseta caixa de feedback e botão
-            document.getElementById('feedback-box').className = "mt-6 p-5 rounded-xl hidden fade-in";
-            document.getElementById('btn-responder').disabled = true;
-            document.getElementById('btn-responder').classList.remove('hidden');
-
-            // Renderiza as alternativas dinamicamente
-            const containerAlternativas = document.getElementById('q-alternativas');
-            containerAlternativas.innerHTML = '';
-
-            if (q.alternativas && q.alternativas.length > 0) {
-                q.alternativas.forEach(alt => {
-                    const btn = document.createElement('button');
-                    const letraLimpa = alt.letra.toString().toLowerCase().trim();
-                    btn.id = `alt-${letraLimpa}`;
-                    btn.className = "w-full text-left px-5 py-3.5 rounded-xl border border-gray-200 hover:bg-blue-50/50 hover:border-[#1c6eb8]/30 transition duration-150 text-sm md:text-base flex gap-3 cursor-pointer items-center";
-                    btn.innerHTML = `<span class="font-bold text-[#1c6eb8] bg-blue-50 w-6 h-6 rounded-full flex items-center justify-center text-xs uppercase">${alt.letra}</span> <span class="text-gray-700">${alt.texto}</span>`;
-                    
-                    btn.onclick = () => selecionarAlternativa(btn, alt.letra);
-                    containerAlternativas.appendChild(btn);
-                });
-            }
-
-            // Atualiza progresso no rodapé
-            document.getElementById('quiz-progresso').innerText = `Questão ${indiceAtual + 1} de ${questoes.length}`;
-        }
-
-        // 3. Gerencia a seleção da alternativa
-        function selecionarAlternativa(elemento, letra) {
-            const botoes = document.getElementById('q-alternativas').children;
-            for (let btn of botoes) {
-                btn.className = "w-full text-left px-5 py-3.5 rounded-xl border border-gray-200 hover:bg-blue-50/50 hover:border-[#1c6eb8]/30 transition duration-150 text-sm md:text-base flex gap-3 cursor-pointer items-center";
-            }
-            elemento.className = "w-full text-left px-5 py-3.5 rounded-xl border-2 border-[#1c6eb8] bg-blue-50/70 transition duration-150 text-sm md:text-base flex gap-3 cursor-pointer items-center font-medium";
-            
-            respostaSelecionada = letra;
-            document.getElementById('btn-responder').disabled = false;
-        }
-
-        // 4. Valida se o usuário acertou e mostra os comentários do PDF
-        function verificarResposta() {
-            const q = questoes[indiceAtual];
-            const feedbackBox = document.getElementById('feedback-box');
-            const feedbackIcon = document.getElementById('feedback-icon');
-            const feedbackTitulo = document.getElementById('feedback-titulo');
-            const comentarioTexto = document.getElementById('q-comentario');
-            
-            document.getElementById('btn-responder').classList.add('hidden');
-            totalRespondidas++;
-
-            // Correção definitiva de espaços e letras maiúsculas/minúsculas
-            const respostaCorretaLimpa = q.resposta_correta.toString().trim().toLowerCase();
-            const respostaUsuarioLimpa = respostaSelecionada.toString().trim().toLowerCase();
-
-            const acertou = (respostaUsuarioLimpa === respostaCorretaLimpa);
-
-            // Desativa cliques nas alternativas após a resposta enviada
-            const botoes = document.getElementById('q-alternativas').children;
-            for (let btn of botoes) {
-                btn.onclick = null;
-                btn.classList.remove('cursor-pointer');
-            }
-
-            if (acertou) {
-                acertos++;
-                feedbackBox.className = "mt-6 p-5 rounded-xl bg-green-50 border border-green-200 text-green-950 fade-in";
-                feedbackIcon.innerText = "✅";
-                feedbackTitulo.innerText = "Resposta Correta!";
-                
-                // Botão clicado ganha estilo verde de sucesso
-                const btnCerto = document.getElementById(`alt-${respostaUsuarioLimpa}`);
-                if(btnCerto) btnCerto.className = "w-full text-left px-5 py-3.5 rounded-xl border-2 border-green-600 bg-green-50 text-green-900 text-sm md:text-base flex gap-3 items-center font-medium";
-            } else {
-                feedbackBox.className = "mt-6 p-5 rounded-xl bg-red-50 border border-red-200 text-red-950 fade-in";
-                feedbackIcon.innerText = "❌";
-                feedbackTitulo.innerText = `Resposta Incorreta (Gabarito Oficial: Alternativa "${respostaCorretaLimpa.toUpperCase()}")`;
-                
-                // Alternativa errada marcada pelo usuário ganha estilo vermelho
-                const btnErrado = document.getElementById(`alt-${respostaUsuarioLimpa}`);
-                if(btnErrado) btnErr
+        carregarQuiz();
+    </script>
+</body>
+</html>
