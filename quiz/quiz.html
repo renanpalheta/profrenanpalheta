@@ -1,271 +1,1785 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Informática - Prof. Renan Palheta</title>
-    <link class="fade-in" rel="icon" href="../LOGO_PROF.png"> 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        .fade-in { animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body class="bg-[#f4f7fa] font-sans text-gray-800">
-
-    <div class="max-w-3xl mx-auto px-4 py-8">
-        <div class="mb-4">
-            <a href="../index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-[#1c6eb8] hover:text-[#1b2a47] transition">
-                ⬅️ Voltar para o Portfólio
-            </a>
-        </div>
-
-        <header class="text-center mb-8 border-b border-gray-200 pb-6 flex flex-col items-center gap-3">
-            <div class="bg-[#1b2a47] border-2 border-[#1c6eb8]/30 px-6 py-2 rounded-md shadow-sm font-mono tracking-wider text-xs font-bold text-white flex items-center gap-2">
-                <span>&gt;</span> PROF. RENAN PALHETA
-            </div>
-            <h1 class="text-3xl font-bold text-[#1b2a47] mt-1">🧠 Simulado Geral de Informática</h1>
-            <p class="text-gray-600">Prepare-se para concursos resolvendo questões comentadas passo a passo</p>
-        </header>
-
-        <div id="quiz-container" class="bg-white rounded-2xl shadow-sm p-6 md:p-8 border border-gray-100 fade-in">
-            <div id="loading" class="text-center py-12">
-                <p class="text-lg text-gray-500 animate-pulse">Carregando banco de questões...</p>
-            </div>
-            
-            <!-- TELA DE SELEÇÃO DE DISCIPLINAS (MENU PRINCIPAL) -->
-            <div id="menu-disciplinas" class="hidden fade-in text-center py-4">
-                <h2 class="text-xl font-bold text-gray-800 mb-2">Escolha uma Disciplina para Treinar:</h2>
-                <p class="text-sm text-gray-500 mb-6">Cada simulado contém questões focadas de nível fundamental.</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- CARD 1: SISTEMAS OPERACIONAIS -->
-                    <button onclick="selecionarDisciplina('Sistemas Operacionais')" class="p-5 text-left bg-blue-50 hover:bg-blue-100/70 border border-blue-200 rounded-xl transition cursor-pointer group shadow-xs">
-                        <span class="block text-2xl mb-1">💻</span>
-                        <span class="block font-bold text-[#1b2a47] group-hover:text-[#1c6eb8]">Sistemas Operacionais</span>
-                        <span class="text-xs text-gray-500">Windows, Linux, pastas, arquivos e atalhos.</span>
-                    </button>
-
-                    <!-- CARD 2: INTERNET E REDES -->
-                    <button onclick="selecionarDisciplina('Internet e Redes')" class="p-5 text-left bg-purple-50 hover:bg-purple-100/70 border border-purple-200 rounded-xl transition cursor-pointer group shadow-xs">
-                        <span class="block text-2xl mb-1">🌐</span>
-                        <span class="block font-bold text-[#1b2a47] group-hover:text-purple-600">Internet, LAN e WAN</span>
-                        <span class="text-xs text-gray-500">Navegadores, e-mail, redes e protocolos.</span>
-                    </button>
-
-                    <!-- CARD 3: MICROSOFT OFFICE -->
-                    <button onclick="selecionarDisciplina('Microsoft Office')" class="p-5 text-left bg-emerald-50 hover:bg-emerald-100/70 border border-emerald-200 rounded-xl transition cursor-pointer group shadow-xs">
-                        <span class="block text-2xl mb-1">💼</span>
-                        <span class="block font-bold text-[#1b2a47] group-hover:text-emerald-600">Microsoft Office</span>
-                        <span class="text-xs text-gray-500">Questões integradas de Word, Excel e PowerPoint.</span>
-                    </button>
-
-                    <!-- CARD 4: HARDWARE E SOFTWARE -->
-                    <button onclick="selecionarDisciplina('Hardware e Software')" class="p-5 text-left bg-amber-50 hover:bg-amber-100/70 border border-amber-200 rounded-xl transition cursor-pointer group shadow-xs">
-                        <span class="block text-2xl mb-1">⚙️</span>
-                        <span class="block font-bold text-[#1b2a47] group-hover:text-amber-600">Hardware e Software</span>
-                        <span class="text-xs text-gray-500">Componentes físicos, memórias e tipos de programas.</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- ÁREA DO QUIZ -->
-            <div id="quiz-content" class="hidden">
-                <div class="flex flex-wrap gap-2 mb-4 text-xs font-semibold text-[#1c6eb8]">
-                    <span id="q-disciplina" class="bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full"></span>
-                    <span id="q-banca" class="bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100"></span>
-                    <span id="q-orgao" class="bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full"></span>
-                </div>
-
-                <h3 id="q-enunciado" class="text-lg font-medium text-gray-900 mb-6 leading-relaxed"></h3>
-
-                <div id="q-alternativas" class="space-y-3 mb-6"></div>
-
-                <button id="btn-responder" onclick="verificarResposta()" class="w-full bg-[#1c6eb8] hover:bg-[#1b2a47] text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-sm cursor-pointer disabled:opacity-50" disabled>
-                    Verificar Resposta
-                </button>
-
-                <div id="feedback-box" class="mt-6 p-5 rounded-xl hidden fade-in">
-                    <div class="flex items-center gap-2 mb-2 font-bold text-lg">
-                        <span id="feedback-icon"></span>
-                        <span id="feedback-titulo"></span>
-                    </div>
-                    <p id="q-comentario" class="text-sm leading-relaxed text-gray-700 border-t border-black/10 pt-3 mt-2"></p>
-                    
-                    <button onclick="proximaQuestao()" class="mt-4 bg-gray-900 hover:bg-black text-white font-medium py-2 px-6 rounded-lg text-sm transition cursor-pointer">
-                        Próxima Questão ➡️
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div id="quiz-footer" class="flex justify-between items-center mt-4 text-sm text-gray-500 px-2 hidden">
-            <span id="quiz-progresso">Questão 0 de 0</span>
-            <span id="quiz-pontuacao" class="font-semibold text-[#1c6eb8]">Acertos: 0%</span>
-        </div>
-    </div>
-
-    <script>
-        let todasQuestoes = [];
-        let questoesFiltradas = [];
-        let indiceAtual = 0;
-        let respostaSelecionada = null;
-        let acertos = 0;
-        let totalRespondidas = 0;
-
-        async function carregarQuiz() {
-            try {
-                // Buscando temporariamente do arquivo de rascunho de testes
-                const response = await fetch('respostasatualizadas.json');
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP! status: ${response.status}`);
-                }
-                const data = await response.json();
-                todasQuestoes = data.questoes;
-                
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('menu-disciplinas').classList.remove('hidden');
-            } catch (error) {
-                console.error("Erro ao carregar o JSON:", error);
-                document.getElementById('loading').innerHTML = `
-                    <div class="text-center p-6">
-                        <p class="text-red-500 font-semibold mb-2">Erro ao carregar as questões!</p>
-                        <p class="text-xs text-gray-500">Verifique se o arquivo JSON de testes está no diretório correto.</p>
-                    </div>`;
-            }
-        }
-
-        // Filtra as questões com base no botão clicado (com agrupamento dinâmico para Office)
-        function selecionarDisciplina(nomeDisciplina) {
-            if (nomeDisciplina === 'Microsoft Office') {
-                questoesFiltradas = todasQuestoes.filter(q => 
-                    q.disciplina === 'Microsoft Word' || 
-                    q.disciplina === 'Microsoft Excel' || 
-                    q.disciplina === 'Microsoft PowerPoint'
-                );
-            } else {
-                questoesFiltradas = todasQuestoes.filter(q => q.disciplina === nomeDisciplina);
-            }
-            
-            if (questoesFiltradas.length === 0) {
-                alert("Em breve teremos novas questões cadastradas para esta disciplina!");
-                return;
-            }
-
-            // Reseta contadores do simulado
-            indiceAtual = 0;
-            acertos = 0;
-            totalRespondidas = 0;
-            document.getElementById('quiz-pontuacao').innerText = `Acertos: 0%`;
-
-            // Alterna as telas
-            document.getElementById('menu-disciplinas').classList.add('hidden');
-            document.getElementById('quiz-content').classList.remove('hidden');
-            document.getElementById('quiz-footer').classList.remove('hidden');
-            
-            exibirQuestao();
-        }
-
-        function exibirQuestao() {
-            if (indiceAtual >= questoesFiltradas.length) {
-                finalizarQuiz();
-                return;
-            }
-
-            const q = questoesFiltradas[indiceAtual];
-            respostaSelecionada = null;
-            
-            document.getElementById('q-disciplina').innerText = q.disciplina;
-            document.getElementById('q-banca').innerText = `Banca: ${q.banca || 'Concurso'}`;
-            document.getElementById('q-orgao').innerText = `Órgão: ${q.orgao || 'Geral'}`;
-            document.getElementById('q-enunciado').innerText = `${indiceAtual + 1}. ${q.enunciado}`;
-            
-            document.getElementById('feedback-box').className = "mt-6 p-5 rounded-xl hidden fade-in";
-            document.getElementById('btn-responder').disabled = true;
-            document.getElementById('btn-responder').classList.remove('hidden');
-
-            const containerAlternativas = document.getElementById('q-alternativas');
-            containerAlternativas.innerHTML = '';
-
-            q.alternativas.forEach(alt => {
-                const btn = document.createElement('button');
-                btn.className = "w-full text-left px-5 py-3.5 rounded-xl border border-gray-200 hover:bg-blue-50/50 hover:border-[#1c6eb8]/30 transition duration-150 text-sm md:text-base flex gap-3 cursor-pointer items-center";
-                btn.innerHTML = `<span class="font-bold text-[#1c6eb8] bg-blue-50 w-6 h-6 rounded-full flex items-center justify-center text-xs uppercase">${alt.letra}</span> <span class="text-gray-700">${alt.texto}</span>`;
-                
-                btn.onclick = () => selecionarAlternativa(btn, alt.letra);
-                containerAlternativas.appendChild(btn);
-            });
-
-            document.getElementById('quiz-progresso').innerText = `Questão ${indiceAtual + 1} de ${questoesFiltradas.length}`;
-        }
-
-        function selecionarAlternativa(elemento, letra) {
-            const botoes = document.getElementById('q-alternativas').children;
-            for (let btn of botoes) {
-                btn.className = "w-full text-left px-5 py-3.5 rounded-xl border border-gray-200 hover:bg-blue-50/50 hover:border-[#1c6eb8]/30 transition duration-150 text-sm md:text-base flex gap-3 cursor-pointer items-center";
-            }
-            elemento.className = "w-full text-left px-5 py-3.5 rounded-xl border-2 border-[#1c6eb8] bg-blue-50/70 transition duration-150 text-sm md:text-base flex gap-3 cursor-pointer items-center font-medium";
-            
-            respostaSelecionada = letra;
-            document.getElementById('btn-responder').disabled = false;
-        }
-
-        function verificarResposta() {
-            const q = questoesFiltradas[indiceAtual];
-            const feedbackBox = document.getElementById('feedback-box');
-            const feedbackIcon = document.getElementById('feedback-icon');
-            const feedbackTitulo = document.getElementById('feedback-titulo');
-            const comentarioTexto = document.getElementById('q-comentario');
-            
-            document.getElementById('btn-responder').classList.add('hidden');
-            totalRespondidas++;
-
-            const acertou = (respostaSelecionada.toLowerCase() === q.resposta_correta.toLowerCase());
-
-            if (acertou) {
-                acertos++;
-                feedbackBox.className = "mt-6 p-5 rounded-xl bg-green-50 border border-green-200 text-green-950 fade-in";
-                feedbackIcon.innerText = "✅";
-                feedbackTitulo.innerText = "Resposta Correta!";
-            } else {
-                feedbackBox.className = "mt-6 p-5 rounded-xl bg-red-50 border border-red-200 text-red-950 fade-in";
-                feedbackIcon.innerText = "❌";
-                feedbackTitulo.innerText = `Resposta Incorreta (Gabarito Oficial: ${q.resposta_correta.toUpperCase()})`;
-            }
-
-            comentarioTexto.innerText = q.comentario || "Nenhum comentário adicional.";
-            feedbackBox.classList.remove('hidden');
-
-            const pct = Math.round((acertos / totalRespondidas) * 100);
-            document.getElementById('quiz-pontuacao').innerText = `Acertos: ${pct}%`;
-        }
-
-        function proximaQuestao() {
-            indiceAtual++;
-            exibirQuestao();
-        }
-
-        function finalizarQuiz() {
-            document.getElementById('quiz-content').innerHTML = `
-                <div class="text-center py-8 fade-in">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">🎉 Simulado Concluído!</h2>
-                    <p class="text-gray-600 mb-6">Você terminou os exercícios da categoria selecionada.</p>
-                    <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 inline-block min-w-[200px] mb-6">
-                        <span class="block text-4xl font-extrabold text-[#1b2a47]">${acertos} / ${totalRespondidas}</span>
-                        <span class="text-xs font-semibold text-[#1c6eb8] uppercase tracking-wider">Questões Acertadas</span>
-                    </div>
-                    <button onclick="voltarAoMenu()" class="block mx-auto bg-[#1c6eb8] hover:bg-[#1b2a47] text-white font-medium py-2.5 px-6 rounded-xl transition cursor-pointer shadow-sm">
-                        Escolher Outra Disciplina
-                    </button>
-                </div>
-            `;
-        }
-
-        function voltarAoMenu() {
-            location.reload();
-        }
-
-        carregarQuiz();
-    </script>
-</body>
-</html>
+{
+  "curso": "Informática Básica para Concursos",
+  "total_questoes": 400,
+  "questoes": [
+    {
+      "id": 1,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No computador com Windows, qual combinação de teclas (atalho) no teclado é usada para fechar uma janela ou um programa que está aberto?",
+      "alternativas": [
+        { "letra": "a", "texto": "Ctrl + C" },
+        { "letra": "b", "texto": "Alt + F4" },
+        { "letra": "c", "texto": "Ctrl + V" },
+        { "letra": "d", "texto": "Windows + L" },
+        { "letra": "e", "texto": "Shift + Enter" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O atalho Alt + F4 serve para fechar a janela ou o programa que você está usando no momento."
+    },
+    {
+      "id": 2,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Quando apagamos um arquivo ou uma foto no Windows usando apenas a tecla 'Delete', para onde esse arquivo vai antes de ser apagado para sempre?",
+      "alternativas": [
+        { "letra": "a", "texto": "Para a Lixeira" },
+        { "letra": "b", "texto": "Para a Internet" },
+        { "letra": "c", "texto": "Para o Painel de Controle" },
+        { "letra": "d", "texto": "Para a Área de Trabalho" },
+        { "letra": "e", "texto": "Para o Bloco de Notas" }
+      ],
+      "resposta_correta": "a",
+      "comentario": "Os arquivos apagados vão direto para a Lixeira, permitindo que você os recupere se tiver apagado sem querer."
+    },
+    {
+      "id": 3,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "O principal programa de um computador, que controla as peças, os arquivos e permite que outros aplicativos funcionem (como o Windows ou o Linux), é chamado de:",
+      "alternativas": [
+        { "letra": "a", "texto": "Navegador de Internet" },
+        { "letra": "b", "texto": "Processador de Texto" },
+        { "letra": "c", "texto": "Sistema Operacional" },
+        { "letra": "d", "texto": "Antivírus" },
+        { "letra": "e", "texto": "Placa de Vídeo" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Sistema Operacional (como Windows) é o programa principal que gerencia todo o computador."
+    },
+    {
+      "id": 4,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Windows, qual ferramenta é usada para navegar pelas pastas e encontrar os arquivos, documentos e fotos salvos no computador?",
+      "alternativas": [
+        { "letra": "a", "texto": "Google Chrome" },
+        { "letra": "b", "texto": "Explorador de Arquivos (antigo Windows Explorer)" },
+        { "letra": "c", "texto": "Lixeira" },
+        { "letra": "d", "texto": "Calculadora" },
+        { "letra": "e", "texto": "Word" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O Explorador de Arquivos é a ferramenta amarela em formato de pasta usada para ver e organizar os arquivos do computador."
+    },
+    {
+      "id": 5,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual dos seguintes nomes representa um sistema operacional muito conhecido e utilizado na maioria dos computadores e notebooks atuais?",
+      "alternativas": [
+        { "letra": "a", "texto": "Microsoft Windows" },
+        { "letra": "b", "texto": "Google Chrome" },
+        { "letra": "c", "texto": "Microsoft Word" },
+        { "letra": "d", "texto": "Adobe Photoshop" },
+        { "letra": "e", "texto": "Avast" }
+      ],
+      "resposta_correta": "a",
+      "comentario": "O Microsoft Windows é o sistema operacional mais popular do mundo para computadores de mesa e notebooks."
+    },
+    {
+      "id": 6,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para criar uma nova pasta na Área de Trabalho do Windows usando o mouse, o usuário deve clicar com qual botão do mouse em um espaço vazio para abrir as opções?",
+      "alternativas": [
+        { "letra": "a", "texto": "Botão esquerdo" },
+        { "letra": "b", "texto": "Botão direito" },
+        { "letra": "c", "texto": "Botão do meio (rodinha)" },
+        { "letra": "d", "texto": "Dar dois cliques rápidos com o botão esquerdo" },
+        { "letra": "e", "texto": "Nenhum botão do mouse" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O botão direito do mouse serve para abrir o menu de opções, onde encontramos a opção 'Novo' e depois 'Pasta'."
+    },
+    {
+      "id": 7,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Ao dar um nome para um arquivo no Windows, existem alguns símbolos que não podem ser usados. Qual dos símbolos abaixo NÃO é permitido colocar no nome de um arquivo?",
+      "alternativas": [
+        { "letra": "a", "texto": "Letra maiúscula (A)" },
+        { "letra": "b", "texto": "Trifólio ou Cifrão ($)" },
+        { "letra": "c", "texto": "Barra ( / )" },
+        { "letra": "d", "texto": "Hífen ( - )" },
+        { "letra": "e", "texto": "Número ( 5 )" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Windows proíbe o uso de barras (/ ou \\), dois pontos, asterisco, aspas e sinais de maior ou menor nos nomes dos arquivos."
+    },
+    {
+      "id": 8,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Quando você quer desligar o computador com Windows de forma correta e segura, qual o primeiro botão que você deve clicar na tela?",
+      "alternativas": [
+        { "letra": "a", "texto": "Botão da Lixeira" },
+        { "letra": "b", "texto": "Botão Iniciar" },
+        { "letra": "c", "texto": "Botão do Google" },
+        { "letra": "d", "texto": "Botão do Relógio" },
+        { "letra": "e", "texto": "Botão do Teclado Virtual" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Para desligar o computador, clicamos no botão Iniciar (com o símbolo do Windows) e depois escolhemos a opção 'Ligar/Desligar'."
+    },
+    {
+      "id": 9,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual ferramenta do Windows serve para fazer desenhos simples, pintar imagens e salvar arquivos no formato de foto?",
+      "alternativas": [
+        { "letra": "a", "texto": "Calculadora" },
+        { "letra": "b", "texto": "Bloco de Notas" },
+        { "letra": "c", "texto": "Paint" },
+        { "letra": "d", "texto": "Windows Defender" },
+        { "letra": "e", "texto": "Excel" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Paint é o programa acessório nativo do Windows voltado para desenhos e edições simples de imagens."
+    },
+    {
+      "id": 10,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como é chamada a tela inicial do Windows, que aparece logo após o computador ligar e onde ficam os ícones principais e o papel de parede?",
+      "alternativas": [
+        { "letra": "a", "texto": "Painel de Controle" },
+        { "letra": "b", "texto": "Área de Trabalho (ou Desktop)" },
+        { "letra": "c", "texto": "Nuvem de Dados" },
+        { "letra": "d", "texto": "Barra de Ferramentas" },
+        { "letra": "e", "texto": "Pasta de Downloads" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A Área de Trabalho (Desktop) é o espaço principal de tela do Windows exibido logo após a inicialização do sistema."
+    },
+    {
+      "id": 11,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Windows, qual ferramenta reúne opções para desinstalar programas, alterar configurações de teclado, som, mouse e contas de usuários?",
+      "alternativas": [
+        { "letra": "a", "texto": "Bloco de Notas" },
+        { "letra": "b", "texto": "Painel de Controle" },
+        { "letra": "c", "texto": "Lixeira" },
+        { "letra": "d", "texto": "Internet Explorer" },
+        { "letra": "e", "texto": "Calculadora" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O Painel de Controle concentra todas as ferramentas e utilitários de ajustes estruturais e personalização do sistema operacional."
+    },
+    {
+      "id": 12,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual recurso visual presente no canto inferior do Windows exibe o botão Iniciar, mostra os programas fixados e o relógio?",
+      "alternativas": [
+        { "letra": "a", "texto": "Área de Transferência" },
+        { "letra": "b", "texto": "Barra de Tarefas" },
+        { "letra": "c", "texto": "Explorador de Arquivos" },
+        { "letra": "d", "texto": "Painel de Controle" },
+        { "letra": "e", "menu-favoritos": "Menu de Favoritos" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A Barra de Tarefas fica localizada por padrão na margem inferior da tela e gerencia os atalhos e relógio do sistema."
+    },
+    {
+      "id": 13,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Quando você recorta ou copia um texto ou imagem no Windows, onde essa informação fica guardada temporariamente antes de você colá-la em outro lugar?",
+      "alternativas": [
+        { "letra": "a", "texto": "Na Lixeira" },
+        { "letra": "b", "texto": "Na Área de Trabalho" },
+        { "letra": "c", "texto": "Na Área de Transferência" },
+        { "letra": "d", "texto": "No Explorador de Arquivos" },
+        { "letra": "e", "texto": "Na Pasta de Downloads" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A Área de Transferência é o espaço volátil de memória RAM reservado para guardar dados copiados via comandos Ctrl+C ou Ctrl+X."
+    },
+    {
+      "id": 14,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual o principal atalho por teclado usado para desfazer a última ação que você realizou no Windows?",
+      "alternativas": [
+        { "letra": "a", "texto": "Ctrl + C" },
+        { "letra": "b", "texto": "Ctrl + V" },
+        { "letra": "c", "texto": "Ctrl + Z" },
+        { "letra": "d", "texto": "Ctrl + X" },
+        { "letra": "e", "texto": "Ctrl + A" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A combinação Ctrl + Z aciona o comando que reverte ou desfaz a última alteração efetuada pelo usuário."
+    },
+    {
+      "id": 15,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual das seguintes alternativas representa um exemplo de sistema operacional de código aberto (gratuito e livre para modificações) muito cobrado em concursos públicos?",
+      "alternativas": [
+        { "letra": "a", "texto": "Microsoft Windows" },
+        { "letra": "b", "texto": "Linux" },
+        { "letra": "c", "texto": "Microsoft Word" },
+        { "letra": "d", "texto": "Google Chrome" },
+        { "letra": "e", "texto": "Internet Explorer" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Ao contrário do Windows que é um software pago e proprietário, o Linux se destaca como um sistema operacional de código aberto e livre."
+    },
+    {
+      "id": 16,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Windows, quando selecionamos uma pasta inteira e usamos o comando de copiar (Ctrl+C), o que acontece quando usamos o comando de colar (Ctrl+V) em um novo local?",
+      "alternativas": [
+        { "letra": "a", "texto": "Apenas a pasta vazia é copiada" },
+        { "letra": "b", "texto": "A pasta e todo o seu conteúdo (arquivos internos) são copiados" },
+        { "letra": "c", "texto": "Os arquivos são movidos e somem do local antigo" },
+        { "letra": "d", "texto": "A pasta é enviada direto para a Lixeira" },
+        { "letra": "e", "texto": "A pasta muda de nome automaticamente" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Copiar ou recortar uma pasta estende a ação automaticamente a todos os subdiretórios e arquivos que estão guardados nela."
+    },
+    {
+      "id": 17,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual a tecla do teclado usada mundialmente em navegadores e sistemas operacionais para atualizar ou recarregar as informações da tela?",
+      "alternativas": [
+        { "letra": "a", "texto": "F1" },
+        { "letra": "b", "texto": "F2" },
+        { "letra": "c", "texto": "F5" },
+        { "letra": "d", "texto": "F12" },
+        { "letra": "e", "texto": "Esc" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A tecla de função F5 é padronizada para executar o comando de atualização (Refresh) da tela atual."
+    },
+    {
+      "id": 18,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Linux, como é chamado o ambiente de texto em tela preta onde o usuário digita comandos em linhas de texto para controlar o computador?",
+      "alternativas": [
+        { "letra": "a", "texto": "Área de Trabalho" },
+        { "letra": "b", "texto": "Terminal (ou Console)" },
+        { "letra": "c", "texto": "Painel de Controle" },
+        { "letra": "d", "texto": "Explorador de Arquivos" },
+        { "letra": "e", "texto": "Lixeira" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O Terminal (ou Console) permite interagir diretamente com o sistema operacional Linux digitando comandos em modo texto puro."
+    },
+    {
+      "id": 19,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual das seguintes ações representa a maneira correta de selecionar todos os arquivos de uma pasta aberta no Windows de uma só vez?",
+      "alternativas": [
+        { "letra": "a", "texto": "Pressionar as teclas Ctrl + A" },
+        { "letra": "b", "texto": "Pressionar as teclas Ctrl + C" },
+        { "letra": "c", "texto": "Pressionar as teclas Ctrl + T" },
+        { "letra": "d", "texto": "Pressionar as teclas Alt + Tab" },
+        { "letra": "e", "texto": "Dar um clique com o botão direito na Lixeira" }
+      ],
+      "resposta_correta": "a",
+      "comentario": "No Explorador de Arquivos do Windows, o atalho Ctrl + A serve para selecionar todos os arquivos e elementos da pasta de uma vez só."
+    },
+    {
+      "id": 20,
+      "disciplina": "Sistemas Operacionais",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual o nome do atalho ou comando que permite reiniciar um computador travado no Windows ou abrir opções seguras de segurança de usuário?",
+      "alternativas": [
+        { "letra": "a", "texto": "Alt + Tab" },
+        { "letra": "b", "texto": "Ctrl + Alt + Delete" },
+        { "letra": "c", "texto": "Windows + D" },
+        { "letra": "d", "texto": "Shift + Esc" },
+        { "letra": "e", "texto": "Ctrl + Shift + N" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A combinação clássica Ctrl + Alt + Delete abre o menu de segurança do Windows, permitindo reiniciar a máquina ou abrir o Gerenciador de Tarefas."
+    },
+    {
+      "id": 21,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "A maior rede de computadores do mundo, que liga milhões de dispositivos em todo o planeta e permite aceder a sites, redes sociais e vídeos, é conhecida como:",
+      "alternativas": [
+        { "letra": "a", "texto": "Intranet" },
+        { "letra": "b", "texto": "Internet" },
+        { "letra": "c", "texto": "LAN" },
+        { "letra": "d", "texto": "Rede Local" },
+        { "letra": "e", "texto": "Wi-Fi" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A Internet é a rede mundial de computadores, aberta ao público e de alcance global."
+    },
+    {
+      "id": 22,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como se chama a rede de computadores fechada e restrita, usada apenas dentro de uma empresa ou órgão público para os funcionários partilharem informações?",
+      "alternativas": [
+        { "letra": "a", "texto": "Internet" },
+        { "letra": "b", "texto": "Deep Web" },
+        { "letra": "c", "texto": "Intranet" },
+        { "letra": "d", "texto": "Bluetooth" },
+        { "letra": "e", "texto": "Site Público" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A Intranet é uma rede privada e restrita aos membros de uma organização, embora utilize as mesmas tecnologias da Internet."
+    },
+    {
+      "id": 23,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual o nome dado aos programas de computador usados especificamente para abrir e navegar pelas páginas da Internet, como o Google Chrome e o Mozilla Firefox?",
+      "alternativas": [
+        { "letra": "a", "texto": "Sistemas Operacionais" },
+        { "letra": "b", "texto": "Antivírus" },
+        { "letra": "c", "texto": "Navegadores (ou Browsers)" },
+        { "letra": "d", "texto": "Redes Sociais" },
+        { "letra": "e", "texto": "Processadores de Texto" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Os navegadores (ou browsers) são os softwares que interpretam as páginas da web para que possamos navegar na Internet."
+    },
+    {
+      "id": 24,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No navegador de Internet, qual botão representado por uma seta em formato de círculo serve para atualizar ou recarregar a página atual?",
+      "alternativas": [
+        { "letra": "a", "texto": "Botão Avançar" },
+        { "letra": "b", "texto": "Botão Voltar" },
+        { "letra": "c", "texto": "Botão Recarregar (Refresh)" },
+        { "letra": "d", "texto": "Botão Favoritos" },
+        { "letra": "e", "texto": "Botão Histórico" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O botão Recarregar/Atualizar faz com que o navegador peça novamente os dados do site ao servidor para atualizar o que vemos no ecrã."
+    },
+    {
+      "id": 25,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Uma rede de computadores que interliga dispositivos localizados numa área muito pequena e restrita, como dentro de uma sala, de uma casa ou de um escritório, é classificada como uma rede:",
+      "alternativas": [
+        { "letra": "a", "texto": "WAN" },
+        { "letra": "b", "texto": "MAN" },
+        { "letra": "c", "texto": "LAN (Rede Local)" },
+        { "letra": "d", "texto": "Global" },
+        { "letra": "e", "texto": "Satélite" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "LAN (Local Area Network) significa Rede de Área Local, usada para curtas distâncias como residências e escritórios."
+    },
+    {
+      "id": 26,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "A Internet é um exemplo prático de uma rede de longa distância, que liga computadores espalhados por diferentes países e continentes. Tecnicamente, este tipo de rede de grande alcance é chamado de:",
+      "alternativas": [
+        { "letra": "a", "texto": "LAN" },
+        { "letra": "b", "texto": "PAN" },
+        { "letra": "c", "texto": "WAN" },
+        { "letra": "d", "texto": "Intranet" },
+        { "letra": "e", "texto": "Rede Interna" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "WAN (Wide Area Network) significa Rede de Longa Distância, cobrindo países, continentes ou o planeta inteiro."
+    },
+    {
+      "id": 27,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Ao utilizar o site de pesquisas Google, qual é o símbolo ou sinal que devemos colocar antes e depois de uma frase para pesquisar por um termo exato, sem mudar a ordem das palavras?",
+      "alternativas": [
+        { "letra": "a", "texto": "Parênteses ( )" },
+        { "letra": "b", "texto": "Aspas ( \" \" )" },
+        { "letra": "c", "texto": "Sinal de Menos ( - )" },
+        { "letra": "d", "texto": "Asterisco ( * )" },
+        { "letra": "e", "texto": "Arroba ( @ )" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Colocar o termo entre aspas faz com que o Google procure exatamente aquela frase na ordem em que foi escrita."
+    },
+    {
+      "id": 28,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No contexto da Internet, o que significa fazer o 'Download' de um arquivo?",
+      "alternativas": [
+        { "letra": "a", "texto": "Enviar uma foto do seu computador para o Facebook" },
+        { "letra": "b", "texto": "Baixar ou salvar um arquivo da Internet para o seu computador" },
+        { "letra": "c", "texto": "Apagar o histórico de páginas visitadas" },
+        { "letra": "d", "texto": "Desligar o modem de Wi-Fi" },
+        { "letra": "e", "texto": "Imprimir um e-mail recebido" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Download é o ato de transferir/baixar dados de um servidor na Internet para o armazenamento local do seu dispositivo."
+    },
+    {
+      "id": 29,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No correio eletrónico (E-mail), para que serve o campo chamado 'Assunto'?",
+      "alternativas": [
+        { "letra": "a", "texto": "Para colocar o endereço de quem vai receber o e-mail" },
+        { "letra": "b", "texto": "Para anexar uma foto ou documento pesado" },
+        { "letra": "c", "texto": "Para escrever um título ou resumo sobre o tema do e-mail" },
+        { "letra": "d", "texto": "Para colocar mensagens indesejadas" },
+        { "letra": "e", "texto": "Para digitar a senha de segurança da conta" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O campo 'Assunto' funciona como o título da mensagem, indicando ao destinatário do que se trata aquele e-mail."
+    },
+    {
+      "id": 30,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamadas aquelas mensagens eletrónicas indesejadas, geralmente propagandas e publicidades falsas, enviadas em massa para milhares de pessoas ao mesmo tempo?",
+      "alternativas": [
+        { "letra": "a", "texto": "Cookies" },
+        { "letra": "b", "texto": "Favoritos" },
+        { "letra": "c", "texto": "Spam" },
+        { "letra": "d", "texto": "Downloads" },
+        { "letra": "e", "texto": "Navegadores" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Spam é o termo usado para mensagens eletrónicas não solicitadas enviadas em grande quantidade."
+    },
+    {
+      "id": 31,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Na barra de endereços dos navegadores, a presença do prefixo 'https://' acompanhado pelo desenho de um cadeado fechado indica que:",
+      "alternativas": [
+        { "letra": "a", "texto": "O site está quebrado e não vai abrir" },
+        { "letra": "b", "texto": "A ligação com o site é segura e os dados são transmitidos com criptografia" },
+        { "letra": "c", "texto": "O site pertence obrigatoriamente ao governo" },
+        { "letra": "d", "texto": "O computador foi infetado por um vírus" },
+        { "letra": "e", "texto": "O uso da Internet passou a ser cobrado por minuto" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O HTTPS adiciona uma camada de segurança (criptografia), protegendo os dados trafegados entre o utilizador e o site."
+    },
+    {
+      "id": 32,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Ao enviar um e-mail para vários contactos, qual campo deve ser preenchido para enviar uma cópia oculta, garantindo que nenhum dos destinatários saiba quem mais recebeu a mensagem?",
+      "alternativas": [
+        { "letra": "a", "texto": "Para:" },
+        { "letra": "b", "texto": "Assunto:" },
+        { "letra": "c", "texto": "Cc: (Com Cópia)" },
+        { "letra": "d", "texto": "Cco: (Com Cópia Oculta)" },
+        { "letra": "e", "texto": "Anexo:" }
+      ],
+      "resposta_correta": "d",
+      "comentario": "O campo Cco (ou Bcc em inglês) esconde os endereços dos destinatários listados nele por questões de privacidade."
+    },
+    {
+      "id": 33,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual dos seguintes símbolos é obrigatório e indispensável na escrita de qualquer endereço de correio eletrónico (e-mail) válido?",
+      "alternativas": [
+        { "letra": "a", "texto": "# (Cardápio / Cardinal)" },
+        { "letra": "b", "texto": "$ (Cifrão)" },
+        { "letra": "c", "texto": "@ (Arroba)" },
+        { "letra": "d", "texto": "& (E comercial)" },
+        { "letra": "e", "texto": "* (Asterisco)" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A arroba (@) separa o nome do utilizador do domínio do servidor de correio eletrónico (ex: utilizador@email.com)."
+    },
+    {
+      "id": 34,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Nos navegadores como o Google Chrome, qual recurso serve para guardar os links dos seus sites favoritos para que possa clicar e abrir diretamente no futuro sem precisar digitar o endereço?",
+      "alternativas": [
+        { "letra": "a", "texto": "Histórico" },
+        { "letra": "b", "texto": "Downloads" },
+        { "letra": "c", "texto": "Favoritos (Bookmarks)" },
+        { "letra": "d", "texto": "Extensões" },
+        { "letra": "e", "texto": "Caixa de Entrada" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O recurso Favoritos armazena os atalhos das páginas da web escolhidas pelo utilizador para acesso rápido."
+    },
+    {
+      "id": 35,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como se chama a funcionalidade dos navegadores que regista a lista de todas as páginas da Internet e sites que foram visitados naquele computador nos últimos dias?",
+      "alternativas": [
+        { "letra": "a", "texto": "Barra de Ferramentas" },
+        { "letra": "b", "texto": "Histórico" },
+        { "letra": "c", "text": "Lixeira" },
+        { "letra": "d", "texto": "Modo Anónimo" },
+        { "letra": "e", "texto": "Painel de Controle" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O Histórico guarda uma cronologia dos sites acedidos, permitindo encontrar uma página visitada anteriormente."
+    },
+    {
+      "id": 36,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual o nome do protocolo básico de comunicação usado na Internet responsável por identificar os computadores através de uma sequência de números única chamada 'Endereço...':",
+      "alternativas": [
+        { "letra": "a", "texto": "E-mail" },
+        { "letra": "b", "texto": "IP (Internet Protocol)" },
+        { "letra": "c", "texto": "Wi-Fi" },
+        { "letra": "d", "texto": "Chat" },
+        { "letra": "e", "texto": "Modem" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O IP (Internet Protocol) é o endereço numérico que identifica cada dispositivo ligado a uma rede de computadores."
+    },
+    {
+      "id": 37,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual dos seguintes serviços da Internet é usado especificamente para enviar e receber correspondências eletrónicas (mensagens de texto com ou sem arquivos anexos) de forma assíncrona?",
+      "alternativas": [
+        { "letra": "a", "texto": "Navegador Web" },
+        { "letra": "b", "texto": "Rede Social de Fotos" },
+        { "letra": "c", "texto": "Correio Eletrónico (E-mail)" },
+        { "letra": "d", "texto": "Motor de Busca" },
+        { "letra": "e", "texto": "Streaming de Música" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O e-mail é a ferramenta digital equivalente às cartas tradicionais, servindo para trocar mensagens e arquivos."
+    },
+    {
+      "id": 38,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Nos navegadores Web, qual recurso permite abrir várias páginas diferentes dentro de uma única janela do programa, alternando entre elas através de abas no topo?",
+      "alternativas": [
+        { "letra": "a", "texto": "Janelas Separadas" },
+        { "letra": "b", "texto": "Guias (ou Abas)" },
+        { "letra": "c", "texto": "Barra de Status" },
+        { "letra": "d", "texto": "Histórico Avançado" },
+        { "letra": "e", "texto": "Menu Iniciar" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "As guias (ou abas) organizam a navegação, permitindo manter múltiplos sites abertos simultaneamente sem encher a barra de tarefas."
+    },
+    {
+      "id": 39,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Ao utilizar o site Google, se digitar uma palavra ou frase na barra central e clicar no botão de pesquisa, o Google funcionará como um:",
+      "alternativas": [
+        { "letra": "a", "texto": "Sistema Operacional" },
+        { "letra": "b", "texto": "Provedor de Internet" },
+        { "letra": "c", "texto": "Motor de Busca (Mecanismo de Pesquisa)" },
+        { "letra": "d", "texto": "Programa de Antivírus" },
+        { "letra": "e", "texto": "Editor de Folhas de Cálculo" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Google é um mecanismo de busca que faz um índice de páginas na web para ajudar os utilizadores a encontrar o que precisam."
+    },
+    {
+      "id": 40,
+      "disciplina": "Internet e Redes",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No ecossistema de redes, qual é a principal vantagem de ligar computadores em rede dentro de um mesmo escritório ou secretaria?",
+      "alternativas": [
+        { "letra": "a", "texto": "Fazer as peças físicas do computador durarem mais" },
+        { "letra": "b", "texto": "Aumentar a velocidade de digitação dos utilizadores" },
+        { "letra": "c", "texto": "Partilhar recursos, como arquivos, pastas e impressoras entre várias máquinas" },
+        { "letra": "d", "texto": "Tornar o monitor do computador colorido" },
+        { "letra": "e", "texto": "Dispensar o uso de energia elétrica nas estações" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O objetivo primordial das redes de computadores corporativas é o compartilhamento de recursos de hardware e dados."
+    },
+    {
+      "id": 41,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Microsoft Word, qual é o nome do efeito visual que deixa as letras de uma palavra selecionada mais grossas e escuras para chamar a atenção?",
+      "alternativas": [
+        { "letra": "a", "texto": "Itálico" },
+        { "letra": "b", "texto": "Sublinhado" },
+        { "letra": "c", "texto": "Negrito" },
+        { "letra": "d", "texto": "Tachado" },
+        { "letra": "e", "texto": "Sobrescrito" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O efeito Negrito (atalho Ctrl+N) aumenta a espessura dos traços das letras, destacando o texto."
+    },
+    {
+      "id": 42,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Quando queremos deixar uma palavra ou frase deitada (inclinada) no Word, usamos qual botão de formatação de texto?",
+      "alternativas": [
+        { "letra": "a", "texto": "Negrito" },
+        { "letra": "b", "texto": "Itálico" },
+        { "letra": "c", "texto": "Sublinhado" },
+        { "letra": "d", "texto": "Justificado" },
+        { "letra": "e", "texto": "Versalete" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O estilo Itálico (atalho Ctrl+I) inclina as letras ligeiramente para a direita."
+    },
+    {
+      "id": 43,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual o botão de alinhamento do Word que espalha o texto de forma igual entre as margens esquerda e direita, deixando as bordas do parágrafo perfeitamente retas dos dois lados?",
+      "alternativas": [
+        { "letra": "a", "texto": "Alinhar à Esquerda" },
+        { "letra": "b", "texto": "Centralizar" },
+        { "letra": "c", "texto": "Alinhar à Direita" },
+        { "letra": "d", "texto": "Justificar" },
+        { "letra": "e", "texto": "Espaçar" }
+      ],
+      "resposta_correta": "d",
+      "comentario": "O alinhamento Justificado (Ctrl+J) adjusts o espaço entre as palavras para alinhar o texto nas duas margens."
+    },
+    {
+      "id": 44,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, qual combinação de teclas (atalho) no teclado é usada para salvar as alterações feitas em um documento?",
+      "alternativas": [
+        { "letra": "a", "texto": "Ctrl + S" },
+        { "letra": "b", "texto": "Ctrl + B" },
+        { "letra": "c", "texto": "Ctrl + C" },
+        { "letra": "d", "texto": "Ctrl + V" },
+        { "letra": "e", "texto": "Ctrl + O" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "No Microsoft Word em português, o atalho para Salvar é Ctrl+B (em inglês é Ctrl+S)."
+    },
+    {
+      "id": 45,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para colocar uma linha reta embaixo de um título no Word, qual opção devemos selecionar?",
+      "alternativas": [
+        { "letra": "a", "texto": "Negrito" },
+        { "letra": "b", "texto": "Itálico" },
+        { "letra": "c", "texto": "Sublinhado" },
+        { "letra": "d", "texto": "Tachado" },
+        { "letra": "e", "texto": "Sombreamento" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A formatação Sublinhado (Ctrl+S) adiciona uma linha horizontal logo abaixo do texto selecionado."
+    },
+    {
+      "id": 46,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Se você cometer um erro ao apagar uma palavra sem querer no Word, qual atalho do teclado pode ser usado para desfazer essa ação e trazer o texto de volta?",
+      "alternativas": [
+        { "letra": "a", "texto": "Ctrl + C" },
+        { "letra": "b", "texto": "Ctrl + V" },
+        { "letra": "c", "texto": "Ctrl + Z" },
+        { "letra": "d", "texto": "Ctrl + E" },
+        { "letra": "e", "texto": "Ctrl + Del" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O comando Desfazer (Ctrl+Z) reverte a última ação realizada no documento."
+    },
+    {
+      "id": 47,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, qual é a extensão ou formato padrão em que os arquivos novos são salvos?",
+      "alternativas": [
+        { "letra": "a", "texto": ".txt" },
+        { "letra": "b", "texto": ".xlsx" },
+        { "letra": "c", "texto": ".docx" },
+        { "letra": "d", "texto": ".pdf" },
+        { "letra": "e", "texto": ".pptx" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Word salva seus arquivos nativamente no formato .docx desde as versões recentes."
+    },
+    {
+      "id": 48,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para selecionar uma única palavra no texto usando o mouse de forma rápida, o que o usuário deve fazer?",
+      "alternativas": [
+        { "letra": "a", "texto": "Clicar uma vez com o botão esquerdo na palavra" },
+        { "letra": "b", "texto": "Clicar duas vezes rápidas (duplo clique) na palavra" },
+        { "letra": "c", "texto": "Clicar uma vez com o botão direito na palavra" },
+        { "letra": "d", "texto": "Girar a rodinha do mouse sobre a palavra" },
+        { "letra": "e", "texto": "Segurar o mouse parado sobre a palavra" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O duplo clique com o botão esquerdo seleciona a palavra inteira automaticamente."
+    },
+    {
+      "id": 49,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual recurso do Word serve para mudar a folha da posição vertical (em pé) para a posição horizontal (deitada)?",
+      "alternativas": [
+        { "letra": "a", "texto": "Tamanho da Página" },
+        { "letra": "b", "texto": "Margens" },
+        { "letra": "c", "texto": "Orientação (Retrato e Paisagem)" },
+        { "letra": "d", "texto": "Colunas" },
+        { "letra": "e", "texto": "Quebra de Página" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A opção Orientação permite escolher entre o modo Retrato (folha em pé) ou Paisagem (folha deitada)."
+    },
+    {
+      "id": 50,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, qual tecla do teclado é usada para abrir a ajuda do programa quando estamos com alguma dúvida?",
+      "alternativas": [
+        { "letra": "a", "texto": "F1" },
+        { "letra": "b", "texto": "F5" },
+        { "letra": "c", "texto": "F7" },
+        { "letra": "d", "texto": "F12" },
+        { "letra": "e", "texto": "Esc" }
+      ],
+      "resposta_correta": "a",
+      "comentario": "A tecla de função F1 é o atalho universal no Windows e no Office para abrir o painel de Ajuda."
+    },
+    {
+      "id": 51,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual tecla do teclado deve ser pressionada para fazer a verificação ortográfica e gramatical (corretor de palavras erradas) em um texto no Word?",
+      "alternativas": [
+        { "letra": "a", "texto": "F2" },
+        { "letra": "b", "texto": "F5" },
+        { "letra": "c", "texto": "F7" },
+        { "letra": "d", "texto": "F11" },
+        { "letra": "e", "texto": "Enter" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A tecla F7 ativa o revisor ortográfico, que analisa o texto procurando palavras digitadas incorretamente."
+    },
+    {
+      "id": 52,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para criar um space ou recuo no início de um parágrafo (afastando a primeira linha da margem esquerda), qual tecla do teclado usamos?",
+      "alternativas": [
+        { "letra": "a", "texto": "Espaço" },
+        { "letra": "b", "texto": "Tab" },
+        { "letra": "c", "texto": "Caps Lock" },
+        { "letra": "d", "texto": "Shift" },
+        { "letra": "e", "texto": "Enter" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A tecla Tab (Tabulação) avança o cursor em uma distância padrão, ideal para iniciar parágrafos."
+    },
+    {
+      "id": 53,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, qual opção na guia Inserir permite criar caixas com linhas verticais e horizontais organizadas em linhas e colunas para colocar dados?",
+      "alternativas": [
+        { "letra": "a", "texto": "Gráfico" },
+        { "letra": "b", "texto": "Imagem" },
+        { "letra": "c", "texto": "Tabela" },
+        { "letra": "d", "texto": "Formas" },
+        { "letra": "e", "texto": "Clip-art" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O recurso Tabela cria uma grade organizada em linhas e colunas para estruturação de dados textuais ou numéricos."
+    },
+    {
+      "id": 54,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamados os textos fixos que aparecem de forma automática no topo (margem superior) e na parte de baixo (margem inferior) de todas as páginas de um documento?",
+      "alternativas": [
+        { "letra": "a", "texto": "Título e Subtítulo" },
+        { "letra": "b", "texto": "Borda e Sombra" },
+        { "letra": "c", "texto": "Cabeçalho e Rodapé" },
+        { "letra": "d", "texto": "Nota de Fim e Nota de Rodapé" },
+        { "letra": "e", "texto": "Margem Alta e Margem Baixa" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Cabeçalho fica no topo da página e o Rodapé na parte inferior, repetindo informações como paginação ou títulos."
+    },
+    {
+      "id": 55,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para mudar o modelo da letra (como Arial ou Times New Roman) de um text no Word, devemos alterar qual opção?",
+      "alternativas": [
+        { "letra": "a", "texto": "O tamanho do parágrafo" },
+        { "letra": "b", "texto": "A fonte" },
+        { "letra": "c", "texto": "O espaçamento de linha" },
+        { "letra": "d", "texto": "O estilo de exibição" },
+        { "letra": "e", "texto": "A margem" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Em informática, o termo 'Fonte' refere-se ao design ou tipo de desenho das letras do texto."
+    },
+    {
+      "id": 56,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Se você deseja imprimir apenas um trecho específico que você marcou com o mouse no Word, qual opção deve escolher na janela de impressão?",
+      "alternativas": [
+        { "letra": "a", "texto": "Imprimir Tudo" },
+        { "letra": "b", "texto": "Imprimir Página Atual" },
+        { "letra": "c", "texto": "Imprimir Seleção" },
+        { "letra": "d", "texto": "Imprimir Páginas Ímpares" },
+        { "letra": "e", "texto": "Imprimir Intervalo" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A opção 'Imprimir Seleção' fica disponível apenas se houver uma parte do texto selecionada pelo usuário."
+    },
+    {
+      "id": 57,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, qual recurso da guia Inserir serve para colocar números sequenciais automáticos no canto das páginas do documento?",
+      "alternativas": [
+        { "letra": "a", "texto": "Contar Palavras" },
+        { "letra": "b", "texto": "Número de Página" },
+        { "letra": "c", "texto": "Linha de Comando" },
+        { "letra": "d", "texto": "Letra Capitular" },
+        { "letra": "e", "texto": "Marcador Numérico" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A ferramenta 'Número de Página' insere e gerencia a paginação automática de todo o arquivo."
+    },
+    {
+      "id": 58,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual botão do Word, representado por uma borracha ou pela letra 'A' com uma borracha, serve para tirar todos os efeitos, cores e tamanhos do texto selecionado, voltando para o padrão simples?",
+      "alternativas": [
+        { "letra": "a", "texto": "Recortar" },
+        { "letra": "b", "texto": "Limpar Toda a Formatação" },
+        { "letra": "c", "texto": "Pincel de Formatação" },
+        { "letra": "d", "texto": "Excluir Texto" },
+        { "letra": "e", "texto": "Desfazer Ação" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O botão 'Limpar Toda a Formatação' remove estilos de fontes, cores e tamanhos, deixando o texto limpo."
+    },
+    {
+      "id": 59,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, para separar o texto em duas ou mais partes na vertical da folha (como em um jornal ou revista), usamos qual opção na configuração de layout?",
+      "alternativas": [
+        { "letra": "a", "texto": "Margens" },
+        { "letra": "b", "texto": "Orientação" },
+        { "letra": "c", "texto": "Colunas" },
+        { "letra": "d", "texto": "Tamanho" },
+        { "letra": "e", "texto": "Tabelas" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A opção 'Colunas' divide o fluxo de texto verticalmente na página, dividindo a leitura."
+    },
+    {
+      "id": 60,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual o nome do botão do Word que serve para copiar apenas os efeitos e estilos visuais de um texto e aplicar exatamente esses mesmos efeitos em outra frase?",
+      "alternativas": [
+        { "letra": "a", "texto": "Copiar (Ctrl+C)" },
+        { "letra": "b", "texto": "Colar (Ctrl+V)" },
+        { "letra": "c", "texto": "Pincel de Formatação" },
+        { "letra": "d", "texto": "Mala Direta" },
+        { "letra": "e", "texto": "Estilos Rápidos" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Pincel de Formatação serve para copiar a estética (cores, tamanho, negrito) de um texto e replicar em outro com um clique."
+    },
+    {
+      "id": 61,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Microsoft Excel, qual sinal ou caractere é OBRIGATÓRIO digitar no início de uma célula para que o programa entenda que você está fazendo uma conta ou fórmula?",
+      "alternativas": [
+        { "letra": "a", "texto": "Sinal de Mais ( + )" },
+        { "letra": "b", "texto": "Sinal de Igual ( = )" },
+        { "letra": "c", "texto": "Sinal de Multiplicação ( * )" },
+        { "letra": "d", "texto": "Sinal de Porcentagem ( % )" },
+        { "letra": "e", "texto": "Sinal de Parênteses ( ( )" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Toda fórmula ou cálculo no Excel deve começar estritamente com o sinal de igual (=)."
+    },
+    {
+      "id": 62,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para fazer uma conta de multiplicação (fazer vezes) entre duas células no Excel, qual símbolo matemático devemos usar entre elas?",
+      "alternativas": [
+        { "letra": "a", "texto": "A letra X" },
+        { "letra": "b", "texto": "O ponto final ( . )" },
+        { "letra": "c", "texto": "O asterisco ( * )" },
+        { "letra": "d", "texto": "A barra ( / )" },
+        { "letra": "e", "texto": "O sinal de mais ( + )" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O operador de multiplicação no ambiente das planilhas eletrônicas é o asterisco (*)."
+    },
+    {
+      "id": 63,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para fazer uma conta de divisão (dividir um número pelo outro) no Excel, qual símbolo matemático representa essa operação?",
+      "alternativas": [
+        { "letra": "a", "texto": "Dois pontos ( : )" },
+        { "letra": "b", "texto": "A barra inclinada ( / )" },
+        { "letra": "c", "texto": "O sinal de menos ( - )" },
+        { "letra": "d", "texto": "O asterisco ( * )" },
+        { "letra": "e", "texto": "A porcentagem ( % )" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O operador de divisão no Excel é a barra inclinada para a direita (/)."
+    },
+    {
+      "id": 64,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como o Excel chama os arquivos de planilhas criados no programa, que podem conter uma ou mais abas de folhas de dados organizadas?",
+      "alternativas": [
+        { "letra": "a", "texto": "Documentos de Texto" },
+        { "letra": "b", "texto": "Apresentações Slide" },
+        { "letra": "c", "texto": "Pasta de Trabalho" },
+        { "letra": "d", "texto": "Bancos de Imagens" },
+        { "letra": "e", "texto": "Formulários Web" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Os arquivos do Excel são chamados de 'Pasta de Trabalho', pois funcionam como um caderno que guarda várias planilhas (abas)."
+    },
+    {
+      "id": 65,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Em uma planilha do Excel, como são identificadas as Colunas (que ficam na posição vertical) e as Linhas (na posição horizontal)?",
+      "alternativas": [
+        { "letra": "a", "texto": "Colunas por números e Linhas por letras" },
+        { "letra": "b", "texto": "Colunas por letras e Linhas por números" },
+        { "letra": "c", "texto": "Tanto colunas quanto linhas usam apenas números" },
+        { "letra": "d", "texto": "Tanto colunas quanto linhas usam apenas letras" },
+        { "letra": "e", "texto": "Por nomes escolhidos pelo usuário" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "No Excel, as colunas are representadas por letras (A, B, C...) e as linhas são numeradas (1, 2, 3...)."
+    },
+    {
+      "id": 66,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como se chama o quadradinho que é o ponto de encontro entre uma Coluna e uma Linha na planilha do Excel?",
+      "alternativas": [
+        { "letra": "a", "texto": "Bloco" },
+        { "letra": "b", "texto": "Fórmula" },
+        { "letra": "c", "texto": "Célula" },
+        { "letra": "d", "texto": "Aba" },
+        { "letra": "e", "texto": "Gráfico" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Uma Célula é a unidade básica da planilha, formada pelo cruzamento de uma linha com uma coluna (Ex: A1)."
+    },
+    {
+      "id": 67,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Se você digitar na célula A1 o valor 10, na célula A2 o valor 5 e na célula A3 colocar a fórmula `=A1-A2`, qual resultado aparecerá na tela após apertar Enter?",
+      "alternativas": [
+        { "letra": "a", "texto": "15" },
+        { "letra": "b", "texto": "5" },
+        { "letra": "c", "texto": "50" },
+        { "letra": "d", "texto": "2" },
+        { "letra": "e", "texto": "0" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O sinal de menos (-) faz a subtração simples: 10 menos 5 é igual a 5."
+    },
+    {
+      "id": 68,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual é o nome da função automática do Excel usada para somar de uma vez só uma lista gigante de vários números selecionados?",
+      "alternativas": [
+        { "letra": "a", "texto": "=CALCULAR()" },
+        { "letra": "b", "texto": "=MAIS()" },
+        { "letra": "c", "texto": "=SOMA()" },
+        { "letra": "d", "texto": "=TOTAL()" },
+        { "letra": "e", "texto": "=CONTA()" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A função `=SOMA()` adiciona automaticamente todos os valores contidos no intervalo de células informado."
+    },
+    {
+      "id": 69,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Em uma fórmula do Excel, o uso de dois pontos ( : ) entre duas células (como em A1:A10) significa que a fórmula vai calcular:",
+      "alternativas": [
+        { "letra": "a", "texto": "Apenas as células A1 e A10, pulando as do meio" },
+        { "letra": "b", "texto": "Todas as células desde a A1 ATÉ a A10 (o intervalo inteiro)" },
+        { "letra": "c", "texto": "Uma conta de divisão entre A1 e A10" },
+        { "letra": "d", "texto": "Que o resultado será exibido em formato de horas" },
+        { "letra": "e", "texto": "Que as células estão apagadas" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O símbolo de dois pontos (:) significa 'ATÉ', indicando um intervalo contínuo de células."
+    },
+    {
+      "id": 70,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual é a extensão ou formato padrão dos arquivos novos criados no Microsoft Excel?",
+      "alternativas": [
+        { "letra": "a", "texto": ".docx" },
+        { "letra": "b", "texto": ".pdf" },
+        { "letra": "c", "texto": ".xlsx" },
+        { "letra": "d", "texto": ".pptx" },
+        { "letra": "e", "texto": ".txt" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Os arquivos de planilhas do Microsoft Excel utilizam a extensão padrão .xlsx."
+    },
+    {
+      "id": 71,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Se você usar o ponto e vírgula ( ; ) dentro de uma fórmula do Excel (como em `=SOMA(A1;A5)`), o programa calculará:",
+      "alternativas": [
+        { "letra": "a", "texto": "Todas as células de A1 até A5" },
+        { "letra": "b", "texto": "Apenas a célula A1 E a célula A5 isoladas" },
+        { "letra": "c", "texto": "Uma conta de multiplicação" },
+        { "letra": "d", "texto": "Um erro na planilha" },
+        { "letra": "e", "texto": "O tamanho do texto das células" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O símbolo de ponto e vírgula (;) funciona como o conectivo 'E', separando células ou argumentos de forma isolada."
+    },
+    {
+      "id": 72,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual recurso visual do Excel serve para juntar duas ou mais células selecionadas, transformando-as em uma única célula maior e centralizando o texto?",
+      "alternativas": [
+        { "letra": "a", "texto": "Formatação Condicional" },
+        { "letra": "b", "texto": "Mesclar e Centralizar" },
+        { "letra": "c", "texto": "AutoSoma" },
+        { "letra": "d", "texto": "Filtro de Dados" },
+        { "letra": "e", "texto": "Quebra de Texto" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O botão 'Mesclar e Centralizar' combina várias células em uma e centraliza o conteúdo inserido nela."
+    },
+    {
+      "id": 73,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual ferramenta do Excel serve para esconder temporariamente linhas com dados que não queremos ver, mostrando apenas as linhas que atendem a um critério (como listar apenas funcionários de uma secretaria)?",
+      "alternativas": [
+        { "letra": "a", "texto": "Gráfico" },
+        { "letra": "b", "texto": "Mesclar" },
+        { "letra": "c", "texto": "Filtro" },
+        { "letra": "d", "texto": "Negrito" },
+        { "letra": "e", "texto": "Limpar Formatação" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A ferramenta Filtro insere setas nos títulos das colunas para que o usuário escolha quais linhas deseja exibir ou ocultar."
+    },
+    {
+      "id": 74,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Excel, se a célula B1 tem o valor 20 e a célula B2 tem o valor 2, qual será o resultado da fórmula `=B1/B2`?",
+      "alternativas": [
+        { "letra": "a", "texto": "40" },
+        { "letra": "b", "texto": "22" },
+        { "letra": "c", "texto": "18" },
+        { "letra": "d", "texto": "10" },
+        { "letra": "e", "texto": "5" }
+      ],
+      "resposta_correta": "d",
+      "comentario": "A barra (/) faz a divisão: 20 dividido por 2 é igual a 10."
+    },
+    {
+      "id": 75,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual recurso do Excel transforma números e dados da planilha em desenhos visuais (como fatias de pizza ou colunas de barras) para facilitar a leitura?",
+      "alternativas": [
+        { "letra": "a", "texto": "Tabelas Dinâmicas" },
+        { "letra": "b", "texto": "Gráficos" },
+        { "letra": "c", "texto": "Fórmulas Avançadas" },
+        { "letra": "d", "texto": "Filtros Rápidos" },
+        { "letra": "e", "texto": "Pincel de Estilo" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Os Gráficos servem para ilustrar e resumir visualmente os dados numéricos contidos nas planilhas."
+    },
+    {
+      "id": 76,
+      "disciplina": "Microsoft PowerPoint",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "O Microsoft PowerPoint é um programa de escritório que serve especificamente para qual das seguintes tarefas no dia a dia?",
+      "alternativas": [
+        { "letra": "a", "texto": "Fazer contas e folhas de pagamento" },
+        { "letra": "b", "texto": "Escrever cartas oficiais e relatórios longos" },
+        { "letra": "c", "texto": "Criar apresentações de slides para palestras ou aulas" },
+        { "letra": "d", "texto": "Limpar vírus do computador" },
+        { "letra": "e", "texto": "Navegar em sites da Internet" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O PowerPoint é a ferramenta padrão do pacote Office voltada para a criação e exibição de apresentações de slides."
+    },
+    {
+      "id": 77,
+      "disciplina": "Microsoft PowerPoint",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamadas cada uma das páginas ou telas brancas individuais que criamos dentro do PowerPoint para colocar textos e fotos?",
+      "alternativas": [
+        { "letra": "a", "texto": "Células" },
+        { "letra": "b", "texto": "Folhas de Texto" },
+        { "letra": "c", "texto": "Slides" },
+        { "letra": "d", "texto": "Planilhas" },
+        { "letra": "e", "texto": "Guias" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Cada página de uma apresentação do PowerPoint recebe tecnicamente o nome de Slide."
+    },
+    {
+      "id": 78,
+      "disciplina": "Microsoft PowerPoint",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No PowerPoint, qual tecla do teclado deve ser pressionada para iniciar o modo de apresentação de slides em tela cheia desde o primeiríssimo slide?",
+      "alternativas": [
+        { "letra": "a", "texto": "F1" },
+        { "letra": "b", "texto": "F5" },
+        { "letra": "c", "texto": "F7" },
+        { "letra": "d", "texto": "Enter" },
+        { "letra": "e", "texto": "Esc" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A tecla F5 inicia a apresentação de slides em tela cheia a partir do primeiro slide do arquivo."
+    },
+    {
+      "id": 79,
+      "disciplina": "Microsoft PowerPoint",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Quando estamos assistindo a uma apresentação de slides em tela cheia no PowerPoint, qual tecla do teclado serve para fechar a apresentação e voltar para a tela de edição?",
+      "alternativas": [
+        { "letra": "a", "texto": "Enter" },
+        { "letra": "b", "texto": "Espaço" },
+        { "letra": "c", "texto": "Esc" },
+        { "letra": "d", "texto": "F5" },
+        { "letra": "e", "texto": "Delete" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A tecla Esc (Escape) cancela o modo de exibição de tela cheia e retorna o usuário ao editor do PowerPoint."
+    },
+    {
+      "id": 80,
+      "disciplina": "Microsoft PowerPoint",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como se chama o recurso do PowerPoint que cria efeitos visuais de movimento (como esmaecer, empurrar ou apagar) na troca de um slide para o próximo?",
+      "alternativas": [
+        { "letra": "a", "texto": "Animações de Texto" },
+        { "letra": "b", "texto": "Transições de Slides" },
+        { "letra": "c", "texto": "Design de Página" },
+        { "letra": "d", "texto": "Layout de Objeto" },
+        { "letra": "e", "texto": "Configuração de Fonte" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "As Transições são os efeitos visuais que acontecem especificamente durante a passagem de um slide para o outro."
+    },
+    {
+      "id": 81,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "As partes físicas de um computador, ou seja, tudo aquilo que podemos tocar com as mãos (como o mouse, o teclado, o monitor e os cabos), são chamadas tecnicamente de:",
+      "alternativas": [
+        { "letra": "a", "texto": "Software" },
+        { "letra": "b", "texto": "Sistemas Operacionais" },
+        { "letra": "c", "texto": "Hardware" },
+        { "letra": "d", "texto": "Aplicativos de Internet" },
+        { "letra": "e", "texto": "Programas Nativos" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Hardware é o conjunto de componentes físicos, circuitos e peças que formam a estrutura real do computador."
+    },
+    {
+      "id": 82,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamados os programas, aplicativos e instruções que instalamos no computador para realizar tarefas (como o Word, o Windows e os jogos)?",
+      "alternativas": [
+        { "letra": "a", "texto": "Hardware" },
+        { "letra": "b", "texto": "Periféricos" },
+        { "letra": "c", "texto": "Software" },
+        { "letra": "d", "texto": "Barramentos" },
+        { "letra": "e", "texto": "Gabinetes" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Software representa a parte lógica do computador, composta pelos programas, rotinas e códigos de execução."
+    },
+    {
+      "id": 83,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual componente interno do computador é conhecido como o 'cérebro' da máquina, sendo o grande responsável por processar os dados e realizar as contas e tarefas de todos os programas?",
+      "alternativas": [
+        { "letra": "a", "texto": "Disco Rígido (HD)" },
+        { "letra": "b", "texto": "Memória RAM" },
+        { "letra": "c", "texto": "Processador (UCP / CPU)" },
+        { "letra": "d", "texto": "Placa de Som" },
+        { "letra": "e", "texto": "Gabinete" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Processador (CPU) é a Unidade Central de Processamento, responsible por executar as instruções e cálculos de dados do sistema."
+    },
+    {
+      "id": 84,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como é chamada aquela memória principal e temporária do computador que guarda os dados dos programas que estão abertos apenas enquanto a máquina estiver ligada?",
+      "alternativas": [
+        { "letra": "a", "texto": "Memória ROM" },
+        { "letra": "b", "texto": "Memória RAM" },
+        { "letra": "c", "texto": "Disco Rígido (HD)" },
+        { "letra": "d", "texto": "Pendrive" },
+        { "letra": "e", "texto": "Disquete" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A Memória RAM é temporária (volátil). Quando o computador é desligado, tudo o que estava guardado nela é apagado."
+    },
+    {
+      "id": 85,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Onde ficam guardados de forma permanente (sem apagar quando desliga o computador) todos os programas instalados, arquivos de texto e fotos no computador?",
+      "alternativas": [
+        { "letra": "a", "texto": "Na Memória RAM" },
+        { "letra": "b", "texto": "No Processador" },
+        { "letra": "c", "texto": "No Disco Rígido (HD ou SSD)" },
+        { "letra": "d", "texto": "Na Área de Transferência" },
+        { "letra": "e", "texto": "No Estabilizador" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Disco Rígido (HD) ou o SSD são memórias secundárias permanentes que armazenam os dados de forma estável."
+    },
+    {
+      "id": 86,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamados os equipamentos externos conectados ao computador usados exclusivamente para enviar dados do usuário para dentro da máquina, como o teclado e o mouse?",
+      "alternativas": [
+        { "letra": "a", "texto": "Periféricos de Saída" },
+        { "letra": "b", "texto": "Sistemas de Armazenamento" },
+        { "letra": "c", "texto": "Periféricos de Entrada" },
+        { "letra": "d", "texto": "Componentes de Processamento" },
+        { "letra": "e", "texto": "Programas Utilitários" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Dispositivos de Entrada servem para levar informações do ambiente externo para o processamento interno do computador."
+    },
+    {
+      "id": 87,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamados os dispositivos externos que recebem os dados processados e trazem as respostas de dentro do computador para o usuário, como o monitor e a impressora?",
+      "alternativas": [
+        { "letra": "a", "texto": "Periféricos de Entrada" },
+        { "letra": "b", "texto": "Periféricos de Saída" },
+        { "letra": "c", "texto": "Hardwares de Conexão" },
+        { "letra": "d", "texto": "Memórias Temporárias" },
+        { "letra": "e", "texto": "Softwares Aplicativos" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Dispositivos de Saída projetam, imprimem ou emitem sons com as respostas resultantes das tarefas do computador."
+    },
+    {
+      "id": 88,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual componente de hardware é considerado um dispositivo misto (tanto de Entrada quanto de Saída de dados) por permitir digitar escolhendo opções com os dedos e ver as respostas na mesma tela?",
+      "alternativas": [
+        { "letra": "a", "texto": "Mouse Comum" },
+        { "letra": "b", "texto": "Monitor Sensível ao Toque (Touch Screen)" },
+        { "letra": "c", "texto": "Teclado Padrão" },
+        { "letra": "d", "texto": "Impressora Comum" },
+        { "letra": "e", "texto": "Caixas de Som" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A tela touch screen recebe dados (entrada pelo toque) e exibe imagens (saída visual), funcionando de forma mista."
+    },
+    {
+      "id": 89,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual é a placa de circuito principal do computador, onde ficam encaixados todos os componentes essenciais (como processador e memórias) e que permite que todos eles conversem entre si?",
+      "alternativas": [
+        { "letra": "a", "texto": "Placa de Som" },
+        { "letra": "b", "texto": "Placa de Fax" },
+        { "letra": "c", "texto": "Placa-Mãe" },
+        { "letra": "d", "texto": "Placa de Rede sem fio" },
+        { "letra": "e", "texto": "Gabinete de Metal" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A Placa-Mãe (Motherboard) interliga fisicamente e eletronicamente todas as peças do microcomputador."
+    },
+    {
+      "id": 90,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual dos seguintes itens representa a menor unidade de medida de informação que um computador consegue ler e processar, sendo representado estritamente pelo número 0 ou pelo número 1?",
+      "alternativas": [
+        { "letra": "a", "texto": "Byte" },
+        { "letra": "b", "texto": "Kilo" },
+        { "letra": "c", "texto": "Bit" },
+        { "letra": "d", "texto": "Mega" },
+        { "letra": "e", "texto": "Giga" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Bit (Binary Digit) é a menor partícula de dados na computação, assumindo apenas dois estados elétricos: 0 ou 1."
+    },
+    {
+      "id": 91,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Na informática básica, quando reunimos um conjunto exato de 8 bits para formar e representar uma única letra, número ou caractere no teclado, criamos a unidade chamada de:",
+      "alternativas": [
+        { "letra": "a", "texto": "Byte" },
+        { "letra": "b", "texto": "Mega" },
+        { "letra": "c", "texto": "Giga" },
+        { "letra": "d", "texto": "Pixel" },
+        { "letra": "e", "texto": "Fórmula" }
+      ],
+      "resposta_correta": "a",
+      "comentario": "Um grupo de 8 bits equivale a 1 Byte. Cada caractere digitado no teclado ocupa exatamente 1 Byte de memória."
+    },
+    {
+      "id": 92,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como se chama a caixa de metal ou torre que protege as peças internas do computador (como a placa-mãe e o processador) da poeira e de pancadas?",
+      "alternativas": [
+        { "letra": "a", "texto": "Monitor" },
+        { "letra": "b", "texto": "Estabilizador" },
+        { "letra": "c", "texto": "Gabinete" },
+        { "letra": "d", "texto": "Teclado" },
+        { "letra": "e", "texto": "Mousepad" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Gabinete é o compartimento externo (caixa protetora) onde montamos os componentes internos do PC."
+    },
+    {
+      "id": 93,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual pequeno dispositivo de armazenamento portátil, que se conecta direto em uma entrada USB do computador, permite copiar e carregar arquivos facilmente no bolso?",
+      "alternativas": [
+        { "letra": "a", "texto": "Monitor de Vídeo" },
+        { "letra": "b", "texto": "Pendrive" },
+        { "letra": "c", "texto": "Teclado com fio" },
+        { "letra": "d", "texto": "Estabilizador" },
+        { "letra": "e", "texto": "Cooler" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O pendrive usa memória flash do tipo EEPROM para salvar dados de forma portátil e rápida pelas entradas USB."
+    },
+    {
+      "id": 94,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual o componente de hardware, composto por uma ventoinha/ventilador pequeno colado sobre o processador, serve para resfriar a peça e evitar que ela queime de tão quente?",
+      "alternativas": [
+        { "letra": "a", "texto": "Estabilizador" },
+        { "letra": "b", "texto": "Nobreak" },
+        { "letra": "c", "texto": "Cooler" },
+        { "letra": "d", "texto": "Placa de Som" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Cooler é o sistema de ventilação ativa responsável por dissipar o calor gerado pelo processador durante o uso."
+    },
+    {
+      "id": 95,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual porta ou entrada retangular, presente na maioria dos computadores modernos, serve para conectar quase tudo hoje em dia, como mouses, teclados, pendrives e impressoras?",
+      "alternativas": [
+        { "letra": "a", "texto": "Porta Serial Antiga" },
+        { "letra": "b", "texto": "Porta de Disquete" },
+        { "letra": "c", "texto": "Porta USB" },
+        { "letra": "d", "texto": "Porta de Áudio" },
+        { "letra": "e", "texto": "Porta de Energia" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A tecnologia USB (Universal Serial Bus) virou o padrão universal para conexões rápidas e periféricos externos."
+    },
+    {
+      "id": 96,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são classificados aqueles programas instalados de fábrica que vêm em um chip de memória da placa-mãe para realizar o controle de peças básicas e o ligamento do computador (como o BIOS)?",
+      "alternativas": [
+        { "letra": "a", "texto": "Softwares de Aplicativos" },
+        { "letra": "b", "texto": "Firmware (ou software embutido)" },
+        { "letra": "c", "texto": "Jogos Eletrônicos" },
+        { "letra": "d", "texto": "Navegadores Sociais" },
+        { "letra": "e", "texto": "Planilhas de Trabalho" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Firmware é o software gravado diretamente na memória física (ROM) de um chip de hardware pelo fabricante."
+    },
+    {
+      "id": 97,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual dos seguintes itens representa um periférico que serve estritamente para a SAÍDA de dados do computador, apresentando as respostas em papel impresso?",
+      "alternativas": [
+        { "letra": "a", "texto": "Teclado" },
+        { "letra": "b", "texto": "Mouse" },
+        { "letra": "c", "texto": "Scanner" },
+        { "letra": "d", "texto": "Impressora" },
+        { "letra": "e", "texto": "Microfone" }
+      ],
+      "resposta_correta": "d",
+      "comentario": "A impressora processa os dados digitais recebidos da CPU e os materializa em folhas físicas, sendo um dispositivo de saída."
+    },
+    {
+      "id": 98,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual periférico de ENTRADA de dados, parecido com uma máquina de xerox, serve para copiar uma folha impressa ou foto e jogá-la para dentro do computador em formato digital?",
+      "alternativas": [
+        { "letra": "a", "texto": "Monitor" },
+        { "letra": "b", "texto": "Caixas de Som" },
+        { "letra": "c", "texto": "Scanner" },
+        { "letra": "d", "texto": "Mouse" },
+        { "letra": "e", "texto": "Fone de Ouvido" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Scanner faz a digitalização de imagens e documentos físicos, enviando o arquivo digital resultante para a CPU."
+    },
+    {
+      "id": 100,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Os programas instalados no computador criados especificamente para ajudar os usuários em tarefas práticas do dia a dia (como editores de texto, navegadores e jogos) pertencem à categoria de:",
+      "alternativas": [
+        { "letra": "a", "texto": "Softwares de Sistema" },
+        { "letra": "b", "texto": "Hardwares de Processamento" },
+        { "letra": "c", "texto": "Softwares Aplicativos" },
+        { "letra": "d", "texto": "Periféricos Virtuais" },
+        { "letra": "e", "texto": "Drivers de Máquina" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Softwares Aplicativos são os programas voltados para tarefas finais diretas e utilidades práticas para o próprio usuário."
+    }
