@@ -1,6 +1,6 @@
 {
   "curso": "Informática Básica para Concursos",
-  "total_questoes": 100,
+  "total_questoes": 400,
   "questoes": [
     {
       "id": 1,
@@ -784,4 +784,1002 @@
       "cargo": "Nível Fundamental",
       "tipo": "multipla_escolha",
       "enunciado": "No Word, qual combinação de teclas (atalho) no teclado é usada para salvar as alterações feitas em um documento?",
-      "alternativas":
+      "alternativas": [
+        { "letra": "a", "texto": "Ctrl + S" },
+        { "letra": "b", "texto": "Ctrl + B" },
+        { "letra": "c", "texto": "Ctrl + C" },
+        { "letra": "d", "texto": "Ctrl + V" },
+        { "letra": "e", "texto": "Ctrl + O" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "No Microsoft Word em português, o atalho para Salvar é Ctrl+B (em inglês é Ctrl+S)."
+    },
+    {
+      "id": 45,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para colocar uma linha reta embaixo de um título no Word, qual opção devemos selecionar?",
+      "alternativas": [
+        { "letra": "a", "texto": "Negrito" },
+        { "letra": "b", "texto": "Itálico" },
+        { "letra": "c", "texto": "Sublinhado" },
+        { "letra": "d", "texto": "Tachado" },
+        { "letra": "e", "texto": "Sombreamento" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A formatação Sublinhado (Ctrl+S) adiciona uma linha horizontal logo abaixo do texto selecionado."
+    },
+    {
+      "id": 46,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Se você cometer um erro ao apagar uma palavra sem querer no Word, qual atalho do teclado pode ser usado para desfazer essa ação e trazer o texto de volta?",
+      "alternativas": [
+        { "letra": "a", "texto": "Ctrl + C" },
+        { "letra": "b", "texto": "Ctrl + V" },
+        { "letra": "c", "texto": "Ctrl + Z" },
+        { "letra": "d", "texto": "Ctrl + E" },
+        { "letra": "e", "texto": "Ctrl + Del" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O comando Desfazer (Ctrl+Z) reverte a última ação realizada no documento."
+    },
+    {
+      "id": 47,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, qual é a extensão ou formato padrão em que os arquivos novos são salvos?",
+      "alternativas": [
+        { "letra": "a", "texto": ".txt" },
+        { "letra": "b", "texto": ".xlsx" },
+        { "letra": "c", "texto": ".docx" },
+        { "letra": "d", "texto": ".pdf" },
+        { "letra": "e", "texto": ".pptx" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Word salva seus arquivos nativamente no formato .docx desde as versões recentes."
+    },
+    {
+      "id": 48,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para selecionar uma única palavra no texto usando o mouse de forma rápida, o que o usuário deve fazer?",
+      "alternativas": [
+        { "letra": "a", "texto": "Clicar uma vez com o botão esquerdo na palavra" },
+        { "letra": "b", "texto": "Clicar duas vezes rápidas (duplo clique) na palavra" },
+        { "letra": "c", "texto": "Clicar uma vez com o botão direito na palavra" },
+        { "letra": "d", "texto": "Girar a rodinha do mouse sobre a palavra" },
+        { "letra": "e", "texto": "Segurar o mouse parado sobre a palavra" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O duplo clique com o botão esquerdo seleciona a palavra inteira automaticamente."
+    },
+    {
+      "id": 49,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual recurso do Word serve para mudar a folha da posição vertical (em pé) para a posição horizontal (deitada)?",
+      "alternativas": [
+        { "letra": "a", "texto": "Tamanho da Página" },
+        { "letra": "b", "texto": "Margens" },
+        { "letra": "c", "texto": "Orientação (Retrato e Paisagem)" },
+        { "letra": "d", "texto": "Colunas" },
+        { "letra": "e", "texto": "Quebra de Página" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A opção Orientação permite escolher entre o modo Retrato (folha em pé) ou Paisagem (folha deitada)."
+    },
+    {
+      "id": 50,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, qual tecla do teclado é usada para abrir a ajuda do programa quando estamos com alguma dúvida?",
+      "alternativas": [
+        { "letra": "a", "texto": "F1" },
+        { "letra": "b", "texto": "F5" },
+        { "letra": "c", "texto": "F7" },
+        { "letra": "d", "texto": "F12" },
+        { "letra": "e", "texto": "Esc" }
+      ],
+      "resposta_correta": "a",
+      "comentario": "A tecla de função F1 é o atalho universal no Windows e no Office para abrir o painel de Ajuda."
+    },
+    {
+      "id": 51,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual tecla do teclado deve ser pressionada para fazer a verificação ortográfica e gramatical (corretor de palavras erradas) em um texto no Word?",
+      "alternativas": [
+        { "letra": "a", "texto": "F2" },
+        { "letra": "b", "texto": "F5" },
+        { "letra": "c", "texto": "F7" },
+        { "letra": "d", "texto": "F11" },
+        { "letra": "e", "texto": "Enter" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A tecla F7 ativa o revisor ortográfico, que analisa o texto procurando palavras digitadas incorretamente."
+    },
+    {
+      "id": 52,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para criar um space ou recuo no início de um parágrafo (afastando a primeira linha da margem esquerda), qual tecla do teclado usamos?",
+      "alternativas": [
+        { "letra": "a", "texto": "Espaço" },
+        { "letra": "b", "texto": "Tab" },
+        { "letra": "c", "texto": "Caps Lock" },
+        { "letra": "d", "texto": "Shift" },
+        { "letra": "e", "texto": "Enter" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A tecla Tab (Tabulação) avança o cursor em uma distância padrão, ideal para iniciar parágrafos."
+    },
+    {
+      "id": 53,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, qual opção na guia Inserir permite criar caixas com linhas verticais e horizontais organizadas em linhas e colunas para colocar dados?",
+      "alternativas": [
+        { "letra": "a", "texto": "Gráfico" },
+        { "letra": "b", "texto": "Imagem" },
+        { "letra": "c", "texto": "Tabela" },
+        { "letra": "d", "texto": "Formas" },
+        { "letra": "e", "texto": "Clip-art" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O recurso Tabela cria uma grade organizada em linhas e colunas para estruturação de dados textuais ou numéricos."
+    },
+    {
+      "id": 54,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamados os textos fixos que aparecem de forma automática no topo (margem superior) e na parte de baixo (margem inferior) de todas as páginas de um documento?",
+      "alternativas": [
+        { "letra": "a", "texto": "Título e Subtítulo" },
+        { "letra": "b", "texto": "Borda e Sombra" },
+        { "letra": "c", "texto": "Cabeçalho e Rodapé" },
+        { "letra": "d", "texto": "Nota de Fim e Nota de Rodapé" },
+        { "letra": "e", "texto": "Margem Alta e Margem Baixa" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Cabeçalho fica no topo da página e o Rodapé na parte inferior, repetindo informações como paginação ou títulos."
+    },
+    {
+      "id": 55,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para mudar o modelo da letra (como Arial ou Times New Roman) de um text no Word, devemos alterar qual opção?",
+      "alternativas": [
+        { "letra": "a", "texto": "O tamanho do parágrafo" },
+        { "letra": "b", "texto": "A fonte" },
+        { "letra": "c", "texto": "O espaçamento de linha" },
+        { "letra": "d", "texto": "O estilo de exibição" },
+        { "letra": "e", "texto": "A margem" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Em informática, o termo 'Fonte' refere-se ao design ou tipo de desenho das letras do texto."
+    },
+    {
+      "id": 56,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Se você deseja imprimir apenas um trecho específico que você marcou com o mouse no Word, qual opção deve escolher na janela de impressão?",
+      "alternativas": [
+        { "letra": "a", "texto": "Imprimir Tudo" },
+        { "letra": "b", "texto": "Imprimir Página Atual" },
+        { "letra": "c", "texto": "Imprimir Seleção" },
+        { "letra": "d", "texto": "Imprimir Páginas Ímpares" },
+        { "letra": "e", "texto": "Imprimir Intervalo" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A opção 'Imprimir Seleção' fica disponível apenas se houver uma parte do texto selecionada pelo usuário."
+    },
+    {
+      "id": 57,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, qual recurso da guia Inserir serve para colocar números sequenciais automáticos no canto das páginas do documento?",
+      "alternativas": [
+        { "letra": "a", "texto": "Contar Palavras" },
+        { "letra": "b", "texto": "Número de Página" },
+        { "letra": "c", "texto": "Linha de Comando" },
+        { "letra": "d", "texto": "Letra Capitular" },
+        { "letra": "e", "texto": "Marcador Numérico" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A ferramenta 'Número de Página' insere e gerencia a paginação automática de todo o arquivo."
+    },
+    {
+      "id": 58,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual botão do Word, representado por uma borracha ou pela letra 'A' com uma borracha, serve para tirar todos os efeitos, cores e tamanhos do texto selecionado, voltando para o padrão simples?",
+      "alternativas": [
+        { "letra": "a", "texto": "Recortar" },
+        { "letra": "b", "texto": "Limpar Toda a Formatação" },
+        { "letra": "c", "texto": "Pincel de Formatação" },
+        { "letra": "d", "texto": "Excluir Texto" },
+        { "letra": "e", "texto": "Desfazer Ação" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O botão 'Limpar Toda a Formatação' remove estilos de fontes, cores e tamanhos, deixando o texto limpo."
+    },
+    {
+      "id": 59,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Word, para separar o texto em duas ou mais partes na vertical da folha (como em um jornal ou revista), usamos qual opção na configuração de layout?",
+      "alternativas": [
+        { "letra": "a", "texto": "Margens" },
+        { "letra": "b", "texto": "Orientação" },
+        { "letra": "c", "texto": "Colunas" },
+        { "letra": "d", "texto": "Tamanho" },
+        { "letra": "e", "texto": "Tabelas" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A opção 'Colunas' divide o fluxo de texto verticalmente na página, dividindo a leitura."
+    },
+    {
+      "id": 60,
+      "disciplina": "Microsoft Word",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual o nome do botão do Word que serve para copiar apenas os efeitos e estilos visuais de um texto e aplicar exatamente esses mesmos efeitos em outra frase?",
+      "alternativas": [
+        { "letra": "a", "texto": "Copiar (Ctrl+C)" },
+        { "letra": "b", "texto": "Colar (Ctrl+V)" },
+        { "letra": "c", "texto": "Pincel de Formatação" },
+        { "letra": "d", "texto": "Mala Direta" },
+        { "letra": "e", "texto": "Estilos Rápidos" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Pincel de Formatação serve para copiar a estética (cores, tamanho, negrito) de um texto e replicar em outro com um clique."
+    },
+    {
+      "id": 61,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Microsoft Excel, qual sinal ou caractere é OBRIGATÓRIO digitar no início de uma célula para que o programa entenda que você está fazendo uma conta ou fórmula?",
+      "alternativas": [
+        { "letra": "a", "texto": "Sinal de Mais ( + )" },
+        { "letra": "b", "texto": "Sinal de Igual ( = )" },
+        { "letra": "c", "texto": "Sinal de Multiplicação ( * )" },
+        { "letra": "d", "texto": "Sinal de Porcentagem ( % )" },
+        { "letra": "e", "texto": "Sinal de Parênteses ( ( )" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Toda fórmula ou cálculo no Excel deve começar estritamente com o sinal de igual (=)."
+    },
+    {
+      "id": 62,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para fazer uma conta de multiplicação (fazer vezes) entre duas células no Excel, qual símbolo matemático devemos usar entre elas?",
+      "alternativas": [
+        { "letra": "a", "texto": "A letra X" },
+        { "letra": "b", "texto": "O ponto final ( . )" },
+        { "letra": "c", "texto": "O asterisco ( * )" },
+        { "letra": "d", "texto": "A barra ( / )" },
+        { "letra": "e", "texto": "O sinal de mais ( + )" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O operador de multiplicação no ambiente das planilhas eletrônicas é o asterisco (*)."
+    },
+    {
+      "id": 63,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Para fazer uma conta de divisão (dividir um número pelo outro) no Excel, qual símbolo matemático representa essa operação?",
+      "alternativas": [
+        { "letra": "a", "texto": "Dois pontos ( : )" },
+        { "letra": "b", "texto": "A barra inclinada ( / )" },
+        { "letra": "c", "texto": "O sinal de menos ( - )" },
+        { "letra": "d", "texto": "O asterisco ( * )" },
+        { "letra": "e", "texto": "A porcentagem ( % )" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O operador de divisão no Excel é a barra inclinada para a direita (/)."
+    },
+    {
+      "id": 64,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como o Excel chama os arquivos de planilhas criados no programa, que podem conter uma ou mais abas de folhas de dados organizadas?",
+      "alternativas": [
+        { "letra": "a", "texto": "Documentos de Texto" },
+        { "letra": "b", "texto": "Apresentações Slide" },
+        { "letra": "c", "texto": "Pasta de Trabalho" },
+        { "letra": "d", "texto": "Bancos de Imagens" },
+        { "letra": "e", "texto": "Formulários Web" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Os arquivos do Excel são chamados de 'Pasta de Trabalho', pois funcionam como um caderno que guarda várias planilhas (abas)."
+    },
+    {
+      "id": 65,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Em uma planilha do Excel, como são identificadas as Colunas (que ficam na posição vertical) e as Linhas (na posição horizontal)?",
+      "alternativas": [
+        { "letra": "a", "texto": "Colunas por números e Linhas por letras" },
+        { "letra": "b", "texto": "Colunas por letras e Linhas por números" },
+        { "letra": "c", "texto": "Tanto colunas quanto linhas usam apenas números" },
+        { "letra": "d", "texto": "Tanto colunas quanto linhas usam apenas letras" },
+        { "letra": "e", "texto": "Por nomes escolhidos pelo usuário" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "No Excel, as colunas are representadas por letras (A, B, C...) e as linhas são numeradas (1, 2, 3...)."
+    },
+    {
+      "id": 66,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como se chama o quadradinho que é o ponto de encontro entre uma Coluna e uma Linha na planilha do Excel?",
+      "alternativas": [
+        { "letra": "a", "texto": "Bloco" },
+        { "letra": "b", "texto": "Fórmula" },
+        { "letra": "c", "texto": "Célula" },
+        { "letra": "d", "texto": "Aba" },
+        { "letra": "e", "texto": "Gráfico" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Uma Célula é a unidade básica da planilha, formada pelo cruzamento de uma linha com uma coluna (Ex: A1)."
+    },
+    {
+      "id": 67,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Se você digitar na célula A1 o valor 10, na célula A2 o valor 5 e na célula A3 colocar a fórmula `=A1-A2`, qual resultado aparecerá na tela após apertar Enter?",
+      "alternativas": [
+        { "letra": "a", "texto": "15" },
+        { "letra": "b", "texto": "5" },
+        { "letra": "c", "texto": "50" },
+        { "letra": "d", "texto": "2" },
+        { "letra": "e", "texto": "0" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O sinal de menos (-) faz a subtração simples: 10 menos 5 é igual a 5."
+    },
+    {
+      "id": 68,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual é o nome da função automática do Excel usada para somar de uma vez só uma lista gigante de vários números selecionados?",
+      "alternativas": [
+        { "letra": "a", "texto": "=CALCULAR()" },
+        { "letra": "b", "texto": "=MAIS()" },
+        { "letra": "c", "texto": "=SOMA()" },
+        { "letra": "d", "texto": "=TOTAL()" },
+        { "letra": "e", "texto": "=CONTA()" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A função `=SOMA()` adiciona automaticamente todos os valores contidos no intervalo de células informado."
+    },
+    {
+      "id": 69,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Em uma fórmula do Excel, o uso de dois pontos ( : ) entre duas células (como em A1:A10) significa que a fórmula vai calcular:",
+      "alternativas": [
+        { "letra": "a", "texto": "Apenas as células A1 e A10, pulando as do meio" },
+        { "letra": "b", "texto": "Todas as células desde a A1 ATÉ a A10 (o intervalo inteiro)" },
+        { "letra": "c", "texto": "Uma conta de divisão entre A1 e A10" },
+        { "letra": "d", "texto": "Que o resultado será exibido em formato de horas" },
+        { "letra": "e", "texto": "Que as células estão apagadas" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O símbolo de dois pontos (:) significa 'ATÉ', indicando um intervalo contínuo de células."
+    },
+    {
+      "id": 70,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual é a extensão ou formato padrão dos arquivos novos criados no Microsoft Excel?",
+      "alternativas": [
+        { "letra": "a", "texto": ".docx" },
+        { "letra": "b", "texto": ".pdf" },
+        { "letra": "c", "texto": ".xlsx" },
+        { "letra": "d", "texto": ".pptx" },
+        { "letra": "e", "texto": ".txt" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Os arquivos de planilhas do Microsoft Excel utilizam a extensão padrão .xlsx."
+    },
+    {
+      "id": 71,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Se você usar o ponto e vírgula ( ; ) dentro de uma fórmula do Excel (como em `=SOMA(A1;A5)`), o programa calculará:",
+      "alternativas": [
+        { "letra": "a", "texto": "Todas as células de A1 até A5" },
+        { "letra": "b", "texto": "Apenas a célula A1 E a célula A5 isoladas" },
+        { "letra": "c", "texto": "Uma conta de multiplicação" },
+        { "letra": "d", "texto": "Um erro na planilha" },
+        { "letra": "e", "texto": "O tamanho do texto das células" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O símbolo de ponto e vírgula (;) funciona como o conectivo 'E', separando células ou argumentos de forma isolada."
+    },
+    {
+      "id": 72,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual recurso visual do Excel serve para juntar duas ou mais células selecionadas, transformando-as em uma única célula maior e centralizando o texto?",
+      "alternativas": [
+        { "letra": "a", "texto": "Formatação Condicional" },
+        { "letra": "b", "texto": "Mesclar e Centralizar" },
+        { "letra": "c", "texto": "AutoSoma" },
+        { "letra": "d", "texto": "Filtro de Dados" },
+        { "letra": "e", "texto": "Quebra de Texto" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O botão 'Mesclar e Centralizar' combina várias células em uma e centraliza o conteúdo inserido nela."
+    },
+    {
+      "id": 73,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual ferramenta do Excel serve para esconder temporariamente linhas com dados que não queremos ver, mostrando apenas as linhas que atendem a um critério (como listar apenas funcionários de uma secretaria)?",
+      "alternativas": [
+        { "letra": "a", "texto": "Gráfico" },
+        { "letra": "b", "texto": "Mesclar" },
+        { "letra": "c", "texto": "Filtro" },
+        { "letra": "d", "texto": "Negrito" },
+        { "letra": "e", "texto": "Limpar Formatação" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A ferramenta Filtro insere setas nos títulos das colunas para que o usuário escolha quais linhas deseja exibir ou ocultar."
+    },
+    {
+      "id": 74,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No Excel, se a célula B1 tem o valor 20 e a célula B2 tem o valor 2, qual será o resultado da fórmula `=B1/B2`?",
+      "alternativas": [
+        { "letra": "a", "texto": "40" },
+        { "letra": "b", "texto": "22" },
+        { "letra": "c", "texto": "18" },
+        { "letra": "d", "texto": "10" },
+        { "letra": "e", "texto": "5" }
+      ],
+      "resposta_correta": "d",
+      "comentario": "A barra (/) faz a divisão: 20 dividido por 2 é igual a 10."
+    },
+    {
+      "id": 75,
+      "disciplina": "Microsoft Excel",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual recurso do Excel transforma números e dados da planilha em desenhos visuais (como fatias de pizza ou colunas de barras) para facilitar a leitura?",
+      "alternativas": [
+        { "letra": "a", "texto": "Tabelas Dinâmicas" },
+        { "letra": "b", "texto": "Gráficos" },
+        { "letra": "c", "texto": "Fórmulas Avançadas" },
+        { "letra": "d", "texto": "Filtros Rápidos" },
+        { "letra": "e", "texto": "Pincel de Estilo" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Os Gráficos servem para ilustrar e resumir visualmente os dados numéricos contidos nas planilhas."
+    },
+    {
+      "id": 76,
+      "disciplina": "Microsoft PowerPoint",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "O Microsoft PowerPoint é um programa de escritório que serve especificamente para qual das seguintes tarefas no dia a dia?",
+      "alternativas": [
+        { "letra": "a", "texto": "Fazer contas e folhas de pagamento" },
+        { "letra": "b", "texto": "Escrever cartas oficiais e relatórios longos" },
+        { "letra": "c", "texto": "Criar apresentações de slides para palestras ou aulas" },
+        { "letra": "d", "texto": "Limpar vírus do computador" },
+        { "letra": "e", "texto": "Navegar em sites da Internet" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O PowerPoint é a ferramenta padrão do pacote Office voltada para a criação e exibição de apresentações de slides."
+    },
+    {
+      "id": 77,
+      "disciplina": "Microsoft PowerPoint",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamadas cada uma das páginas ou telas brancas individuais que criamos dentro do PowerPoint para colocar textos e fotos?",
+      "alternativas": [
+        { "letra": "a", "texto": "Células" },
+        { "letra": "b", "texto": "Folhas de Texto" },
+        { "letra": "c", "texto": "Slides" },
+        { "letra": "d", "texto": "Planilhas" },
+        { "letra": "e", "texto": "Guias" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Cada página de uma apresentação do PowerPoint recebe tecnicamente o nome de Slide."
+    },
+    {
+      "id": 78,
+      "disciplina": "Microsoft PowerPoint",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "No PowerPoint, qual tecla do teclado deve ser pressionada para iniciar o modo de apresentação de slides em tela cheia desde o primeiríssimo slide?",
+      "alternativas": [
+        { "letra": "a", "texto": "F1" },
+        { "letra": "b", "texto": "F5" },
+        { "letra": "c", "texto": "F7" },
+        { "letra": "d", "texto": "Enter" },
+        { "letra": "e", "texto": "Esc" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A tecla F5 inicia a apresentação de slides em tela cheia a partir do primeiro slide do arquivo."
+    },
+    {
+      "id": 79,
+      "disciplina": "Microsoft PowerPoint",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Quando estamos assistindo a uma apresentação de slides em tela cheia no PowerPoint, qual tecla do teclado serve para fechar a apresentação e voltar para a tela de edição?",
+      "alternativas": [
+        { "letra": "a", "texto": "Enter" },
+        { "letra": "b", "texto": "Espaço" },
+        { "letra": "c", "texto": "Esc" },
+        { "letra": "d", "texto": "F5" },
+        { "letra": "e", "texto": "Delete" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A tecla Esc (Escape) cancela o modo de exibição de tela cheia e retorna o usuário ao editor do PowerPoint."
+    },
+    {
+      "id": 80,
+      "disciplina": "Microsoft PowerPoint",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como se chama o recurso do PowerPoint que cria efeitos visuais de movimento (como esmaecer, empurrar ou apagar) na troca de um slide para o próximo?",
+      "alternativas": [
+        { "letra": "a", "texto": "Animações de Texto" },
+        { "letra": "b", "texto": "Transições de Slides" },
+        { "letra": "c", "texto": "Design de Página" },
+        { "letra": "d", "texto": "Layout de Objeto" },
+        { "letra": "e", "texto": "Configuração de Fonte" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "As Transições são os efeitos visuais que acontecem especificamente durante a passagem de um slide para o outro."
+    },
+    {
+      "id": 81,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "As partes físicas de um computador, ou seja, tudo aquilo que podemos tocar com as mãos (como o mouse, o teclado, o monitor e os cabos), são chamadas tecnicamente de:",
+      "alternativas": [
+        { "letra": "a", "texto": "Software" },
+        { "letra": "b", "texto": "Sistemas Operacionais" },
+        { "letra": "c", "texto": "Hardware" },
+        { "letra": "d", "texto": "Aplicativos de Internet" },
+        { "letra": "e", "texto": "Programas Nativos" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Hardware é o conjunto de componentes físicos, circuitos e peças que formam a estrutura real do computador."
+    },
+    {
+      "id": 82,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamados os programas, aplicativos e instruções que instalamos no computador para realizar tarefas (como o Word, o Windows e os jogos)?",
+      "alternativas": [
+        { "letra": "a", "texto": "Hardware" },
+        { "letra": "b", "texto": "Periféricos" },
+        { "letra": "c", "texto": "Software" },
+        { "letra": "d", "texto": "Barramentos" },
+        { "letra": "e", "texto": "Gabinetes" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Software representa a parte lógica do computador, composta pelos programas, rotinas e códigos de execução."
+    },
+    {
+      "id": 83,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual componente interno do computador é conhecido como o 'cérebro' da máquina, sendo o grande responsável por processar os dados e realizar as contas e tarefas de todos os programas?",
+      "alternativas": [
+        { "letra": "a", "texto": "Disco Rígido (HD)" },
+        { "letra": "b", "texto": "Memória RAM" },
+        { "letra": "c", "texto": "Processador (UCP / CPU)" },
+        { "letra": "d", "texto": "Placa de Som" },
+        { "letra": "e", "texto": "Gabinete" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Processador (CPU) é a Unidade Central de Processamento, responsible por executar as instruções e cálculos de dados do sistema."
+    },
+    {
+      "id": 84,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como é chamada aquela memória principal e temporária do computador que guarda os dados dos programas que estão abertos apenas enquanto a máquina estiver ligada?",
+      "alternativas": [
+        { "letra": "a", "texto": "Memória ROM" },
+        { "letra": "b", "texto": "Memória RAM" },
+        { "letra": "c", "texto": "Disco Rígido (HD)" },
+        { "letra": "d", "texto": "Pendrive" },
+        { "letra": "e", "texto": "Disquete" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A Memória RAM é temporária (volátil). Quando o computador é desligado, tudo o que estava guardado nela é apagado."
+    },
+    {
+      "id": 85,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Onde ficam guardados de forma permanente (sem apagar quando desliga o computador) todos os programas instalados, arquivos de texto e fotos no computador?",
+      "alternativas": [
+        { "letra": "a", "texto": "Na Memória RAM" },
+        { "letra": "b", "texto": "No Processador" },
+        { "letra": "c", "texto": "No Disco Rígido (HD ou SSD)" },
+        { "letra": "d", "texto": "Na Área de Transferência" },
+        { "letra": "e", "texto": "No Estabilizador" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Disco Rígido (HD) ou o SSD são memórias secundárias permanentes que armazenam os dados de forma estável."
+    },
+    {
+      "id": 86,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamados os equipamentos externos conectados ao computador usados exclusivamente para enviar dados do usuário para dentro da máquina, como o teclado e o mouse?",
+      "alternativas": [
+        { "letra": "a", "texto": "Periféricos de Saída" },
+        { "letra": "b", "texto": "Sistemas de Armazenamento" },
+        { "letra": "c", "texto": "Periféricos de Entrada" },
+        { "letra": "d", "texto": "Componentes de Processamento" },
+        { "letra": "e", "texto": "Programas Utilitários" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Dispositivos de Entrada servem para levar informações do ambiente externo para o processamento interno do computador."
+    },
+    {
+      "id": 87,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são chamados os dispositivos externos que recebem os dados processados e trazem as respostas de dentro do computador para o usuário, como o monitor e a impressora?",
+      "alternativas": [
+        { "letra": "a", "texto": "Periféricos de Entrada" },
+        { "letra": "b", "texto": "Periféricos de Saída" },
+        { "letra": "c", "texto": "Hardwares de Conexão" },
+        { "letra": "d", "texto": "Memórias Temporárias" },
+        { "letra": "e", "texto": "Softwares Aplicativos" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Dispositivos de Saída projetam, imprimem ou emitem sons com as respostas resultantes das tarefas do computador."
+    },
+    {
+      "id": 88,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual componente de hardware é considerado um dispositivo misto (tanto de Entrada quanto de Saída de dados) por permitir digitar escolhendo opções com os dedos e ver as respostas na mesma tela?",
+      "alternativas": [
+        { "letra": "a", "texto": "Mouse Comum" },
+        { "letra": "b", "texto": "Monitor Sensível ao Toque (Touch Screen)" },
+        { "letra": "c", "texto": "Teclado Padrão" },
+        { "letra": "d", "texto": "Impressora Comum" },
+        { "letra": "e", "texto": "Caixas de Som" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "A tela touch screen recebe dados (entrada pelo toque) e exibe imagens (saída visual), funcionando de forma mista."
+    },
+    {
+      "id": 89,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual é a placa de circuito principal do computador, onde ficam encaixados todos os componentes essenciais (como processador e memórias) e que permite que todos eles conversem entre si?",
+      "alternativas": [
+        { "letra": "a", "texto": "Placa de Som" },
+        { "letra": "b", "texto": "Placa de Fax" },
+        { "letra": "c", "texto": "Placa-Mãe" },
+        { "letra": "d", "texto": "Placa de Rede sem fio" },
+        { "letra": "e", "texto": "Gabinete de Metal" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A Placa-Mãe (Motherboard) interliga fisicamente e eletronicamente todas as peças do microcomputador."
+    },
+    {
+      "id": 90,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual dos seguintes itens representa a menor unidade de medida de informação que um computador consegue ler e processar, sendo representado estritamente pelo número 0 ou pelo número 1?",
+      "alternativas": [
+        { "letra": "a", "texto": "Byte" },
+        { "letra": "b", "texto": "Kilo" },
+        { "letra": "c", "texto": "Bit" },
+        { "letra": "d", "texto": "Mega" },
+        { "letra": "e", "texto": "Giga" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Bit (Binary Digit) é a menor partícula de dados na computação, assumindo apenas dois estados elétricos: 0 ou 1."
+    },
+    {
+      "id": 91,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Na informática básica, quando reunimos um conjunto exato de 8 bits para formar e representar uma única letra, número ou caractere no teclado, criamos a unidade chamada de:",
+      "alternativas": [
+        { "letra": "a", "texto": "Byte" },
+        { "letra": "b", "texto": "Mega" },
+        { "letra": "c", "texto": "Giga" },
+        { "letra": "d", "texto": "Pixel" },
+        { "letra": "e", "texto": "Fórmula" }
+      ],
+      "resposta_correta": "a",
+      "comentario": "Um grupo de 8 bits equivale a 1 Byte. Cada caractere digitado no teclado ocupa exatamente 1 Byte de memória."
+    },
+    {
+      "id": 92,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como se chama a caixa de metal ou torre que protege as peças internas do computador (como a placa-mãe e o processador) da poeira e de pancadas?",
+      "alternativas": [
+        { "letra": "a", "texto": "Monitor" },
+        { "letra": "b", "texto": "Estabilizador" },
+        { "letra": "c", "texto": "Gabinete" },
+        { "letra": "d", "texto": "Teclado" },
+        { "letra": "e", "texto": "Mousepad" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Gabinete é o compartimento externo (caixa protetora) onde montamos os componentes internos do PC."
+    },
+    {
+      "id": 93,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual pequeno dispositivo de armazenamento portátil, que se conecta direto em uma entrada USB do computador, permite copiar e carregar arquivos facilmente no bolso?",
+      "alternativas": [
+        { "letra": "a", "texto": "Monitor de Vídeo" },
+        { "letra": "b", "texto": "Pendrive" },
+        { "letra": "c", "texto": "Teclado com fio" },
+        { "letra": "d", "texto": "Estabilizador" },
+        { "letra": "e", "texto": "Cooler" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "O pendrive usa memória flash do tipo EEPROM para salvar dados de forma portátil e rápida pelas entradas USB."
+    },
+    {
+      "id": 94,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual o componente de hardware, composto por uma ventoinha/ventilador pequeno colado sobre o processador, serve para resfriar a peça e evitar que ela queime de tão quente?",
+      "alternativas": [
+        { "letra": "a", "texto": "Estabilizador" },
+        { "letra": "b", "texto": "Nobreak" },
+        { "letra": "c", "texto": "Cooler" },
+        { "letra": "d", "texto": "Placa de Som" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Cooler é o sistema de ventilação ativa responsável por dissipar o calor gerado pelo processador durante o uso."
+    },
+    {
+      "id": 95,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual porta ou entrada retangular, presente na maioria dos computadores modernos, serve para conectar quase tudo hoje em dia, como mouses, teclados, pendrives e impressoras?",
+      "alternativas": [
+        { "letra": "a", "texto": "Porta Serial Antiga" },
+        { "letra": "b", "texto": "Porta de Disquete" },
+        { "letra": "c", "texto": "Porta USB" },
+        { "letra": "d", "texto": "Porta de Áudio" },
+        { "letra": "e", "texto": "Porta de Energia" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "A tecnologia USB (Universal Serial Bus) virou o padrão universal para conexões rápidas e periféricos externos."
+    },
+    {
+      "id": 96,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Como são classificados aqueles programas instalados de fábrica que vêm em um chip de memória da placa-mãe para realizar o controle de peças básicas e o ligamento do computador (como o BIOS)?",
+      "alternativas": [
+        { "letra": "a", "texto": "Softwares de Aplicativos" },
+        { "letra": "b", "texto": "Firmware (ou software embutido)" },
+        { "letra": "c", "texto": "Jogos Eletrônicos" },
+        { "letra": "d", "texto": "Navegadores Sociais" },
+        { "letra": "e", "texto": "Planilhas de Trabalho" }
+      ],
+      "resposta_correta": "b",
+      "comentario": "Firmware é o software gravado diretamente na memória física (ROM) de um chip de hardware pelo fabricante."
+    },
+    {
+      "id": 97,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual dos seguintes itens representa um periférico que serve estritamente para a SAÍDA de dados do computador, apresentando as respostas em papel impresso?",
+      "alternativas": [
+        { "letra": "a", "texto": "Teclado" },
+        { "letra": "b", "texto": "Mouse" },
+        { "letra": "c", "texto": "Scanner" },
+        { "letra": "d", "texto": "Impressora" },
+        { "letra": "e", "texto": "Microfone" }
+      ],
+      "resposta_correta": "d",
+      "comentario": "A impressora processa os dados digitais recebidos da CPU e os materializa em folhas físicas, sendo um dispositivo de saída."
+    },
+    {
+      "id": 98,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Qual periférico de ENTRADA de dados, parecido com uma máquina de xerox, serve para copiar uma folha impressa ou foto e jogá-la para dentro do computador em formato digital?",
+      "alternativas": [
+        { "letra": "a", "texto": "Monitor" },
+        { "letra": "b", "texto": "Caixas de Som" },
+        { "letra": "c", "texto": "Scanner" },
+        { "letra": "d", "texto": "Mouse" },
+        { "letra": "e", "texto": "Fone de Ouvido" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "O Scanner faz a digitalização de imagens e documentos físicos, enviando o arquivo digital resultante para a CPU."
+    },
+    {
+      "id": 100,
+      "disciplina": "Hardware e Software",
+      "banca": "Avançar",
+      "orgao": "Geral",
+      "cargo": "Nível Fundamental",
+      "tipo": "multipla_escolha",
+      "enunciado": "Os programas instalados no computador criados especificamente para ajudar os usuários em tarefas práticas do dia a dia (como editores de texto, navegadores e jogos) pertencem à categoria de:",
+      "alternativas": [
+        { "letra": "a", "texto": "Softwares de Sistema" },
+        { "letra": "b", "texto": "Hardwares de Processamento" },
+        { "letra": "c", "texto": "Softwares Aplicativos" },
+        { "letra": "d", "texto": "Periféricos Virtuais" },
+        { "letra": "e", "texto": "Drivers de Máquina" }
+      ],
+      "resposta_correta": "c",
+      "comentario": "Softwares Aplicativos são os programas voltados para tarefas finais diretas e utilidades práticas para o próprio usuário."
+    }
