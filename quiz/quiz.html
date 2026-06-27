@@ -116,7 +116,7 @@
         async function carregarQuiz() {
             try {
                 // Buscando temporariamente do arquivo de rascunho de testes
-                const response = await fetch('respostasatualizadas.json');
+                const response = await fetch('base_quiz_questoes.json');
                 if (!response.ok) {
                     throw new Error(`Erro HTTP! status: ${response.status}`);
                 }
