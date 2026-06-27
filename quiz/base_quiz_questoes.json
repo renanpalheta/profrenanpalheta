@@ -6,7 +6,7 @@
       "id": 1,
       "banca": "Instituto Consulplan",
       "orgao": "Prefeitura de  Formiga - MG",
-      "cargo": "Agente de controle de Endemias",
+      "cargo": "Agente de controle de endemias",
       "tipo": "multipla_escolha",
       "enunciado": "A internet faz uso de protocolos que, na  verdade, são idiomas e sinais universais que permitem aos dispositivos comunicar -se através da rede. O protocolo, considerado a base da internet e que faz a troca de informações entre um browser e um servidor web, é:",
       "alternativas": [
@@ -28,7 +28,7 @@
         }
       ],
       "resposta_correta": "",
-      "comentario": "A internet faz uso de protocolos que, na  verdade, são idiomas e sinais universais que permitem aos dispositivos comunicar -se através da rede. O protocolo, considerado a base da internet e que faz a troca de informações entre um browser e um servidor web, é:  a) SSH.  b) FTP.  c) UDP.  d) HTTP."
+      "comentario": "HTTP (Hypertext Transfer Protocol) é o protocolo utilizado como base para a comunicação entre um navegador web (browser) e um servidor web. Ele é responsável por permitir que os clientes (como os navegadores web) enviem solicitações (como acessar uma página da web) e recebam respostas (como a página solicitada) dos servidores web. O HTTP é um protocolo de aplicação que faz parte da pilha de protocolos TCP/IP utilizada na internet."
     },
     {
       "id": 2,
