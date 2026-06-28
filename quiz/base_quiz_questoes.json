@@ -1,6 +1,6 @@
 {
   "curso": "Informática Básica para Concursos",
-  "total_questoes": 400,
+  "total_questoes": 100,
   "questoes": [
     {
       "id": 1,
@@ -1783,3 +1783,5 @@
       "resposta_correta": "c",
       "comentario": "Softwares Aplicativos são os programas voltados para tarefas finais diretas e utilidades práticas para o próprio usuário."
     }
+  ]
+}
