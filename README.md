@@ -40,7 +40,7 @@ O projeto está organizado de forma direta na raiz para alimentar a página web 
 
 * **🌐 Meu Site:** [renanpalheta.github.io/profrenanpalheta/](https://renanpalheta.github.io/profrenanpalheta/)
 * **💼 LinkedIn:** [Renan Palheta](https://www.linkedin.com/in/renanpalheta/)
-* **✉️ E-mail:** [renanpalheta@gmail.com](mailto:renanpalheta@gmail.com)
+* **✉️ E-mail:** [renanpalheta8@gmail.com](mailto:renanpalheta8@gmail.com)
 
 ---
 <div align="center">
